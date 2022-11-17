@@ -1,8 +1,7 @@
-﻿--create database QLHV
---go
+﻿create database QuanLyHocVien
+go
 
-use QLHV ;
-
+use QuanLyHocVien ;
 go
 
 if OBJECT_ID('ChucVu') is not null
@@ -207,7 +206,6 @@ create table LichHoc
 	ngayTao date,
     ngaySua date,
     FOREIGN KEY(idLop) REFERENCES Lop
-
 )
 
 delete from NhanVien
@@ -219,12 +217,12 @@ values
 ('0',N'Giảng Viên','2022/11/15','2022/11/15'),
 ('1','Admin','2022/11/15','2022/11/15')
 
-insert into NhanVien(ho,tenDem,ten,email,diaChi,sdt,trangThai,matKhau,idChucVu,ngayTao,ngaySua)
+insert into NhanVien(ho,tenDem,ten,email,diaChi,sdt,matKhau,idChucVu,ngayTao,ngaySua)
 values 
-('Vu','Van','Nguyen','nguyenvv4@fpt.edu.vn','HN','0999999999','dang day','1234','0','2022/11/15','2022/11/15'),
-('Ha','Quoc','Khach','khanhhq@fpt.edu.vn','HN','0999999999','dang day','1234','0','2022/11/15','2022/11/15'),
-('Chu','Van','Hieu','hieucv@fpt.edu.vn','HN','0999999999','dang day','1234','0','2022/11/15','2022/11/15'),
-('Tran','Duc','Do','dotd@fpt.edu.vn','HN','0999999999','dang day','1234','0','2022/11/15','2022/11/15'),
-('Mai','Ngoc','Minh','minhmn@fpt.edu.vn','HN','0999999999','dang day','1234','0','2022/11/15','2022/11/15'),
-('Van','Van','Van','vannvph28656@fpt.edu.vn','HN','0999999999','admin','1234','1','2022/11/15','2022/11/15')
+('Vu','Van','Nguyen','nguyenvv4@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('Ha','Quoc','Khach','khanhhq@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('Chu','Van','Hieu','hieucv@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('Tran','Duc','Do','dotd@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('Mai','Ngoc','Minh','minhmn@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('Van','Van','Van','vannvph28656@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15')
 
