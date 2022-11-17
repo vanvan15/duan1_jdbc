@@ -29,6 +29,8 @@ public class menuGiangVien extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        btnThoat = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,17 +45,28 @@ public class menuGiangVien extends javax.swing.JFrame {
 
         jButton3.setText("Quản Lý Điểm");
 
+        btnThoat.setText("Thoát");
+
+        jButton5.setText("Đổi Mật Khẩu");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(jButton1)
-                .addGap(67, 67, 67)
-                .addComponent(jButton2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jButton1)
+                        .addGap(67, 67, 67)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(90, 90, 90)
-                .addComponent(jButton3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
                 .addContainerGap(168, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -64,7 +77,11 @@ public class menuGiangVien extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -110,8 +127,10 @@ public class menuGiangVien extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnThoat;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
     // End of variables declaration//GEN-END:variables
 }
