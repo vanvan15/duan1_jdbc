@@ -28,7 +28,7 @@ create table NhanVien
     diaChi NVARCHAR(50),
 	sdt char(11),
 	ngaySinh date,
-    trangThai NVARCHAR(50),
+    trangThai int default 0,
     matKhau varchar(50) not null,
     idChucVu int,
 	ngayTao date,
@@ -45,6 +45,7 @@ create table HocKy
     hocKy int not null,
     moTa NVARCHAR(50),
     thoiLuong nvarchar(50) not null,
+	trangThai int default 0,
     ngayTao date,
     ngaySua date
 )
@@ -62,7 +63,7 @@ create table HocVien
     diaChi NVARCHAR(50),
 	sdt char(11),
 	ngaySinh date,
-    trangThai NVARCHAR(50),
+    trangThai int default 0,
     matKhau varchar(50) not null,
 	ngayTao date,
     ngaySua date
@@ -76,6 +77,7 @@ create table CaHoc
     id UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
     maCa varchar(10) not null,
     thoiGian varchar(50) not null,
+	trangThai int default 0,
     ngayTao date,
     ngaySua date
 )
@@ -92,6 +94,7 @@ create table DangKyHocLai
     idHocKy UNIQUEIDENTIFIER ,
     ngayDangKy date ,
 	hocPhi decimal ,
+	trangThai int default 0,
 	ngayTao date,
     ngaySua date,
 	PRIMARY KEY (idDangKyHocLai),
@@ -108,7 +111,7 @@ create table Vi
     soDuVi DECIMAL ,
     ngayTao date,
     ngaySua date,
-    trangThai NVARCHAR(50),
+    trangThai int default 0,
     FOREIGN KEY (idHocVien) REFERENCES HocVien
 )
 if OBJECT_ID('MonHoc') is not null
@@ -121,6 +124,7 @@ create table MonHoc
 	tenMon nvarchar(50),
 	hocPhi decimal,
 	thoiLuong int check(thoiLuong>=1 and thoiLuong<=12),
+	trangThai int default 0,
 	ngayTao date,
     ngaySua date,
     FOREIGN KEY(idHocKy) REFERENCES HocKy,
@@ -138,6 +142,9 @@ create table Lop
     slToiDa int ,
     idCa UNIQUEIDENTIFIER not null,
 	idMonHoc UNIQUEIDENTIFIER not null,
+	trangThai int default 0,
+	ngayTao date,
+	ngaySua date,
     FOREIGN KEY (idGiangVien) REFERENCES NhanVien,
     FOREIGN KEY (idCa) REFERENCES CaHoc,
 	FOREIGN KEY (idMonHoc) REFERENCES MonHoc
@@ -150,6 +157,9 @@ create table LopHocVien
 	idLopHocVien UNIQUEIDENTIFIER default newid(),
     idLop UNIQUEIDENTIFIER not null,
     idHocVien UNIQUEIDENTIFIER not null,
+	trangThai int default 0,
+	ngayTao date,
+	ngaySua date,
 	primary key(idLopHocVien),
     FOREIGN KEY (idLop) REFERENCES Lop,
     FOREIGN KEY (idHocVien) REFERENCES HocVien
@@ -164,7 +174,7 @@ create table DongHocPhi
 	idMonHoc UNIQUEIDENTIFIER,
     ngayDong DATE ,
     tienDong DECIMAL,
-	trangThai NVARCHAR(50),
+	trangThai int default 0,
     ngayTao date,
     ngaySua date,
     FOREIGN KEY(idHocVien) REFERENCES HocVien,
@@ -182,6 +192,7 @@ create table KetQuaHT
 	diemGiuaKy float,
 	diemTongKet float,
 	danhGia nvarchar(50),
+	trangThai int default 0,
 	ngayTao date,
     ngaySua date,
     FOREIGN KEY(idHocVien) REFERENCES HocVien,
@@ -192,6 +203,7 @@ create table LichHoc
     id UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
     idLop UNIQUEIDENTIFIER not null,
 	ngayHoc Date,
+	trangThai int default 0,
 	ngayTao date,
     ngaySua date,
     FOREIGN KEY(idLop) REFERENCES Lop
