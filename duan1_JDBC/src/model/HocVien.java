@@ -13,6 +13,7 @@ import java.util.Date;
 public class HocVien {
 
     private String idHocVien;
+    private String maHV;
     private String ho;
     private String tenDem;
     private String ten;
@@ -24,18 +25,12 @@ public class HocVien {
     private Date ngayTao;
     private Date ngaySua;
 
-    public HocVien(String idHocVien, String ho, String tenDem, String ten, String email, String sdt, Date ngaySinh, int trangThai, String matKhau, Date ngayTao, Date ngaySua) {
-        this.idHocVien = idHocVien;
-        this.ho = ho;
-        this.tenDem = tenDem;
-        this.ten = ten;
-        this.email = email;
-        this.sdt = sdt;
-        this.ngaySinh = ngaySinh;
-        this.trangThai = trangThai;
-        this.matKhau = matKhau;
-        this.ngayTao = ngayTao;
-        this.ngaySua = ngaySua;
+    public String getMaHV() {
+        return maHV;
+    }
+
+    public void setMaHV(String maHV) {
+        this.maHV = maHV;
     }
 
     public String getIdHocVien() {
@@ -124,6 +119,24 @@ public class HocVien {
 
     public void setNgaySua(Date ngaySua) {
         this.ngaySua = ngaySua;
+    }
+
+    public HocVien(String idHocVien, String maHV, String ho, String tenDem, String ten, String email, String sdt, Date ngaySinh, int trangThai, String matKhau, Date ngayTao, Date ngaySua) {
+        this.idHocVien = idHocVien;
+        this.maHV = maHV;
+        this.ho = ho;
+        this.tenDem = tenDem;
+        this.ten = ten;
+        this.email = email;
+        this.sdt = sdt;
+        this.ngaySinh = ngaySinh;
+        this.trangThai = trangThai;
+        this.matKhau = matKhau;
+        this.ngayTao = ngayTao;
+        this.ngaySua = ngaySua;
+    }
+
+    public HocVien() {
     }
 
 }

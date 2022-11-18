@@ -13,6 +13,7 @@ import java.util.Date;
 public class NhanVien {
 
     private String id;
+    private String maNV;
     private String ho;
     private String tenDem;
     private String ten;
@@ -25,8 +26,9 @@ public class NhanVien {
     private Date ngayTao;
     private Date ngaySua;
 
-    public NhanVien(String id, String ho, String tenDem, String ten, String email, String diaChi, String sdt, Date ngaySinh, String matKhau, String idChucVu, Date ngayTao, Date ngaySua) {
+    public NhanVien(String id, String maNV, String ho, String tenDem, String ten, String email, String diaChi, String sdt, Date ngaySinh, String matKhau, String idChucVu, Date ngayTao, Date ngaySua) {
         this.id = id;
+        this.maNV = maNV;
         this.ho = ho;
         this.tenDem = tenDem;
         this.ten = ten;
@@ -39,6 +41,16 @@ public class NhanVien {
         this.ngayTao = ngayTao;
         this.ngaySua = ngaySua;
     }
+
+    public String getMaNV() {
+        return maNV;
+    }
+
+    public void setMaNV(String maNV) {
+        this.maNV = maNV;
+    }
+
+    
 
     public String getId() {
         return id;
@@ -134,6 +146,9 @@ public class NhanVien {
 
     public void setNgaySua(Date ngaySua) {
         this.ngaySua = ngaySua;
+    }
+
+    public NhanVien() {
     }
 
 }
