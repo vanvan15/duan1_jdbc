@@ -93,8 +93,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" pref="164" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="btnloginTrangChu" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="266" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -102,11 +101,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnloginTrangChu" min="-2" pref="40" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="33" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -119,11 +115,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng Nh&#x1ead;p"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnloginTrangChu">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnloginTrangChuActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>

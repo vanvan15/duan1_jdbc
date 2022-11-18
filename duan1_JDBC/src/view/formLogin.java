@@ -4,20 +4,72 @@
  */
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import model.HocVien;
+import model.NhanVien;
+import service.impl.loginImpl;
+import service.loginService;
+
 /**
  *
  * @author Dell
  */
 public class formLogin extends javax.swing.JFrame {
 
+    private DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
+    private loginService login = new loginImpl();
+    private List<NhanVien> listNV = new ArrayList<>();
+    private List<HocVien> listHV = new ArrayList<>();
+
     /**
      * Creates new form login
      */
     public formLogin() {
         initComponents();
+        listNV = login.getALlNV();
+        listHV = login.getALLHV();
     }
 
-    
+    public boolean validateForm() {
+        if (txtTaiKhoan.getText().isEmpty() && txtMatKhau.getText().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkLoginNV(String maNV, String matKhau) {
+        for (NhanVien nv : listNV) {
+            if (maNV.equalsIgnoreCase(nv.getMaNV()) && matKhau.equalsIgnoreCase(nv.getMatKhau())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void checkRole(int idChucVu) {
+        if (idChucVu == 1) {
+            menuAdmin login = new menuAdmin();
+            login.setVisible(true);
+            this.dispose();
+        } else {
+            menuGiangVien login = new menuGiangVien();
+            login.setVisible(true);
+            this.dispose();
+        }
+    }
+
+    public boolean checkLoginHV(String maHV, String matKhau) {
+        for (HocVien kh : listHV) {
+            if (maHV.equalsIgnoreCase(kh.getMaHV()) && matKhau.equalsIgnoreCase(kh.getMatKhau())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -25,7 +77,6 @@ public class formLogin extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnloginTrangChu = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtTaiKhoan = new javax.swing.JTextField();
@@ -41,12 +92,6 @@ public class formLogin extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Đăng Nhập");
 
-        btnloginTrangChu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnloginTrangChuActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -54,17 +99,14 @@ public class formLogin extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnloginTrangChu))
+                .addContainerGap(266, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(btnloginTrangChu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -141,20 +183,40 @@ public class formLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnloginTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginTrangChuActionPerformed
-       
-    }//GEN-LAST:event_btnloginTrangChuActionPerformed
-
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnDangXuatActionPerformed
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-       
-       
+        if (validateForm()) {
+            String user = txtTaiKhoan.getText();
+            String pass = txtMatKhau.getText();
+            int maNV;
+            if (checkLoginNV(user, pass)) {
+                for (NhanVien nv : listNV) {
+                    if (user.equalsIgnoreCase(nv.getMaNV())
+                            && pass.equalsIgnoreCase(nv.getMatKhau())) {
+                        maNV = nv.getIdChucVu();
+                        checkRole(maNV);
+                    }
+                }
+
+            } else if (checkLoginHV(user, pass)) {
+                JOptionPane.showMessageDialog(this, "Dang nhap voi role Học Viên!");
+                menuHocVien fkh = new menuHocVien();
+                fkh.setVisible(true);
+                this.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Tài khoản mật khẩu không chính xác!");
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Không có tài khoản!");
+        }
+
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -191,7 +253,6 @@ public class formLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangNhap;
     private javax.swing.JButton btnDangXuat;
-    private javax.swing.JButton btnloginTrangChu;
     private javax.swing.JComboBox<String> cbbRole;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
