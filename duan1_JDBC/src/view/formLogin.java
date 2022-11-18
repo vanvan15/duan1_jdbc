@@ -49,13 +49,15 @@ public class formLogin extends javax.swing.JFrame {
         return false;
     }
 
-    public void checkRole(int idChucVu) {
+    public void checkRole(int idChucVu, String user) {
         if (idChucVu == 1) {
-            menuAdmin login = new menuAdmin();
+            JOptionPane.showMessageDialog(this, "Đăng Nhập với role Admin");
+            menuAdmin login = new menuAdmin(user);
             login.setVisible(true);
             this.dispose();
         } else {
-            menuGiangVien login = new menuGiangVien();
+            JOptionPane.showMessageDialog(this, "Đăng Nhập với role Giảng Viên");
+            menuGiangVien login = new menuGiangVien(user);
             login.setVisible(true);
             this.dispose();
         }
@@ -80,10 +82,9 @@ public class formLogin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtTaiKhoan = new javax.swing.JTextField();
-        txtMatKhau = new javax.swing.JTextField();
         btnDangXuat = new javax.swing.JButton();
         btnDangNhap = new javax.swing.JButton();
-        cbbRole = new javax.swing.JComboBox<>();
+        txtMatKhau = new javax.swing.JPasswordField();
 
         jButton1.setText("jButton1");
 
@@ -131,8 +132,6 @@ public class formLogin extends javax.swing.JFrame {
             }
         });
 
-        cbbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,20 +143,16 @@ public class formLogin extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 38, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                    .addComponent(txtMatKhau))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(77, 77, 77)
                 .addComponent(btnDangNhap)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnDangXuat)
                 .addGap(69, 69, 69))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(177, 177, 177)
-                .addComponent(cbbRole, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,13 +162,11 @@ public class formLogin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(66, 66, 66)
+                .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addComponent(cbbRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                    .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDangXuat)
                     .addComponent(btnDangNhap))
@@ -197,13 +190,13 @@ public class formLogin extends javax.swing.JFrame {
                     if (user.equalsIgnoreCase(nv.getMaNV())
                             && pass.equalsIgnoreCase(nv.getMatKhau())) {
                         maNV = nv.getIdChucVu();
-                        checkRole(maNV);
+                        checkRole(maNV, user);
                     }
                 }
 
             } else if (checkLoginHV(user, pass)) {
                 JOptionPane.showMessageDialog(this, "Dang nhap voi role Học Viên!");
-                menuHocVien fkh = new menuHocVien();
+                menuHocVien fkh = new menuHocVien(user);
                 fkh.setVisible(true);
                 this.dispose();
 
@@ -253,13 +246,12 @@ public class formLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangNhap;
     private javax.swing.JButton btnDangXuat;
-    private javax.swing.JComboBox<String> cbbRole;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtMatKhau;
+    private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtTaiKhoan;
     // End of variables declaration//GEN-END:variables
 }

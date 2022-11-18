@@ -21,12 +21,13 @@ public class NhanVien {
     private String diaChi;
     private String sdt;
     private Date ngaySinh;
+    private int trangThai;
     private String matKhau;
-    private String idChucVu;
+    private int idChucVu;
     private Date ngayTao;
     private Date ngaySua;
 
-    public NhanVien(String id, String maNV, String ho, String tenDem, String ten, String email, String diaChi, String sdt, Date ngaySinh, String matKhau, String idChucVu, Date ngayTao, Date ngaySua) {
+    public NhanVien(String id, String maNV, String ho, String tenDem, String ten, String email, String diaChi, String sdt, Date ngaySinh, int trangThai, String matKhau, int idChucVu, Date ngayTao, Date ngaySua) {
         this.id = id;
         this.maNV = maNV;
         this.ho = ho;
@@ -36,10 +37,19 @@ public class NhanVien {
         this.diaChi = diaChi;
         this.sdt = sdt;
         this.ngaySinh = ngaySinh;
+        this.trangThai = trangThai;
         this.matKhau = matKhau;
         this.idChucVu = idChucVu;
         this.ngayTao = ngayTao;
         this.ngaySua = ngaySua;
+    }
+
+    public int getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
     }
 
     public String getMaNV() {
@@ -49,8 +59,6 @@ public class NhanVien {
     public void setMaNV(String maNV) {
         this.maNV = maNV;
     }
-
-    
 
     public String getId() {
         return id;
@@ -124,11 +132,11 @@ public class NhanVien {
         this.matKhau = matKhau;
     }
 
-    public String getIdChucVu() {
+    public int getIdChucVu() {
         return idChucVu;
     }
 
-    public void setIdChucVu(String idChucVu) {
+    public void setIdChucVu(int idChucVu) {
         this.idChucVu = idChucVu;
     }
 
