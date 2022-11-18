@@ -20,7 +20,7 @@ go
 create table NhanVien
 (
     id UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
-	maNV UNIQUEIDENTIFIER not null,
+	maNV varchar(10) unique,
     ho NVARCHAR(10) ,
     tenDem NVARCHAR(10) ,
     ten NVARCHAR(10),
@@ -56,7 +56,7 @@ go
 create table HocVien
 (
     id UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
-	maHV UNIQUEIDENTIFIER not null,
+	maHV varchar(10) unique,
     ho NVARCHAR(10) ,
     tenDem NVARCHAR(10) ,
     ten NVARCHAR(10),
@@ -222,11 +222,11 @@ values
 ('0',N'Giảng Viên','2022/11/15','2022/11/15'),
 ('1','Admin','2022/11/15','2022/11/15')
 
-insert into NhanVien(ho,tenDem,ten,email,diaChi,sdt,matKhau,idChucVu,ngayTao,ngaySua)
+insert into NhanVien(maNV,ho,tenDem,ten,email,diaChi,sdt,matKhau,idChucVu,ngayTao,ngaySua)
 values 
-('Vu','Van','Nguyen','nguyenvv4@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
-('Ha','Quoc','Khach','khanhhq@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
-('Chu','Van','Hieu','hieucv@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15'),
-('Tran','Duc','Do','dotd@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
-('Mai','Ngoc','Minh','minhmn@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
-('Van','Van','Van','vannvph28656@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15')
+('NV01','Vu','Van','Nguyen','nguyenvv4@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('NV02','Ha','Quoc','Khach','khanhhq@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('NV03','Chu','Van','Hieu','hieucv@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15'),
+('NV04','Tran','Duc','Do','dotd@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('NV05','Mai','Ngoc','Minh','minhmn@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('NV06','Van','Van','Van','vannvph28656@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15')
