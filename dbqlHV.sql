@@ -20,6 +20,7 @@ go
 create table NhanVien
 (
     id UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
+	maNV UNIQUEIDENTIFIER not null,
     ho NVARCHAR(10) ,
     tenDem NVARCHAR(10) ,
     ten NVARCHAR(10),
@@ -55,6 +56,7 @@ go
 create table HocVien
 (
     id UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
+	maHV UNIQUEIDENTIFIER not null,
     ho NVARCHAR(10) ,
     tenDem NVARCHAR(10) ,
     ten NVARCHAR(10),
@@ -197,6 +199,9 @@ create table KetQuaHT
     FOREIGN KEY(idHocVien) REFERENCES HocVien,
 	FOREIGN KEY(idMonHoc) REFERENCES MonHoc,
 )
+if OBJECT_ID('LichHoc') is not null
+drop table LichHoc
+go
 create table LichHoc
 (
     id UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
@@ -221,8 +226,7 @@ insert into NhanVien(ho,tenDem,ten,email,diaChi,sdt,matKhau,idChucVu,ngayTao,nga
 values 
 ('Vu','Van','Nguyen','nguyenvv4@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
 ('Ha','Quoc','Khach','khanhhq@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
-('Chu','Van','Hieu','hieucv@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('Chu','Van','Hieu','hieucv@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15'),
 ('Tran','Duc','Do','dotd@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
 ('Mai','Ngoc','Minh','minhmn@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
 ('Van','Van','Van','vannvph28656@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15')
-
