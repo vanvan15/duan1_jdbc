@@ -1,4 +1,4 @@
-﻿create database QuanLyHocVien
+﻿--create database QuanLyHocVien
 go
 
 use QuanLyHocVien ;
@@ -20,7 +20,7 @@ go
 create table NhanVien
 (
     id UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
-	maNV varchar(10) unique,
+	maNV varchar(10) UNIQUE not null,
     ho NVARCHAR(10) ,
     tenDem NVARCHAR(10) ,
     ten NVARCHAR(10),
@@ -56,7 +56,7 @@ go
 create table HocVien
 (
     id UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
-	maHV varchar(10) unique,
+	maHV varchar(10)UNIQUE not null,
     ho NVARCHAR(10) ,
     tenDem NVARCHAR(10) ,
     ten NVARCHAR(10),
@@ -217,16 +217,67 @@ delete from NhanVien
 select*from NhanVien
 select*from ChucVu
 
-insert into ChucVu(idChucVu,tenChucVu,ngayTao,ngaySua)
-values
-('0',N'Giảng Viên','2022/11/15','2022/11/15'),
-('1','Admin','2022/11/15','2022/11/15')
+select*from Lichhoc
+select*from HocKy
+select*from MonHoc
+delete from HocKy
 
-insert into NhanVien(maNV,ho,tenDem,ten,email,diaChi,sdt,matKhau,idChucVu,ngayTao,ngaySua)
+insert into HocKy(hocKy,moTa,thoiLuong,ngayTao,ngaySua)
+values
+(1,'Ky 1','4 Month','2022/11/17','2022/11/17'),
+(2,'Ky 2','4 Month','2022/11/10','2022/11/17'),
+(3,'Ky 3','4 Month','2022/11/10','2022/11/17'),
+(4,'Ky 4','4 Month','2022/11/10','2022/11/17'),
+(5,'Ky 5','4 Month','2022/11/10','2022/11/17'),
+(6,'Ky 6','4 Month','2022/11/10','2022/11/17'),
+(7,'Ky 7','4 Month','2022/11/10','2022/11/17')
+--week
+
+delete from MonHoc
+insert into MonHoc(idHocKy,tenMon,hocPhi,thoiLuong,ngayTao,ngaySua)
 values 
-('NV01','Vu','Van','Nguyen','nguyenvv4@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
-('NV02','Ha','Quoc','Khach','khanhhq@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
-('NV03','Chu','Van','Hieu','hieucv@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15'),
-('NV04','Tran','Duc','Do','dotd@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
-('NV05','Mai','Ngoc','Minh','minhmn@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
-('NV06','Van','Van','Van','vannvph28656@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15')
+-- ky 1
+('16FD5ECA-8795-4A61-A6CD-EED4A87ED410',N'Lap trinh C',1800000,8,'2022/11/10','2022/11/17'),
+('16FD5ECA-8795-4A61-A6CD-EED4A87ED410',N'Phat Trien Ca Nhan',1800000,8,'2022/11/10','2022/11/17'),
+('16FD5ECA-8795-4A61-A6CD-EED4A87ED410',N'Tin học',1800000,8,'2022/11/10','2022/11/17'),
+('16FD5ECA-8795-4A61-A6CD-EED4A87ED410',N'Thiết kế hình ảnh với Photoshop',1800000,8,'2022/11/10','2022/11/17'),
+('16FD5ECA-8795-4A61-A6CD-EED4A87ED410',N'Tiếng Anh 1.1',2600000,8,'2022/11/10','2022/11/17'),
+--ky2
+--select *from HocKy
+('6A79D536-DB1D-476C-978B-828516F706A0',N'Xây dựng trang web',1800000,8,'2022/11/10','2022/11/17'),
+('6A79D536-DB1D-476C-978B-828516F706A0',N'Cơ sở dữ liệu',1800000,8,'2022/11/10','2022/11/17'),
+('6A79D536-DB1D-476C-978B-828516F706A0',N'Lập trình cơ sở với JavaScript',1800000,8,'2022/11/10','2022/11/17'),
+('6A79D536-DB1D-476C-978B-828516F706A0',N'Tiếng Anh 1.2',2600000,8,'2022/11/10','2022/11/17'),
+('6A79D536-DB1D-476C-978B-828516F706A0',N'Lập trình Java 1',1800000,8,'2022/11/10','2022/11/17'),
+--ky3
+('A130053B-38FE-4ACF-BEB8-006DD84F3895',N'Hệ quản trị SQL Server',1800000,8,'2022/11/10','2022/11/17'),
+('A130053B-38FE-4ACF-BEB8-006DD84F3895',N'Quản lý dự án với Agile',1800000,8,'2022/11/10','2022/11/17'),
+('A130053B-38FE-4ACF-BEB8-006DD84F3895',N'Tiếng Anh 2.1',2600000,8,'2022/11/10','2022/11/17'),
+('A130053B-38FE-4ACF-BEB8-006DD84F3895',N'Lập trình Java 2',1800000,8,'2022/11/10','2022/11/17'),
+('A130053B-38FE-4ACF-BEB8-006DD84F3895',N'Lập trình Java 3',1800000,8,'2022/11/10','2022/11/17'),
+-- ky 4
+
+('2B4B0579-0ACC-4769-AEB1-D0E43F0BB07D',N'Nhập môn Kỹ thuật phần mềm',1800000,8,'2022/11/10','2022/11/17'),
+('2B4B0579-0ACC-4769-AEB1-D0E43F0BB07D',N'Dự án mẫu (Swing/JDBC)',1800000,8,'2022/11/10','2022/11/17'),
+('2B4B0579-0ACC-4769-AEB1-D0E43F0BB07D',N'Dự án 1 (Swing/JDBC)',1800000,8,'2022/11/10','2022/11/17'),
+('2B4B0579-0ACC-4769-AEB1-D0E43F0BB07D',N'Tiếng Anh 2.2',2600000,8,'2022/11/10','2022/11/17'),
+('2B4B0579-0ACC-4769-AEB1-D0E43F0BB07D',N'Python',1000000,4,'2022/11/10','2022/11/17'),
+--ky 5 
+
+('90384634-D77E-4AC4-9460-1DD329256E7A',N'Kiểm thử cơ bản',1800000,8,'2022/11/10','2022/11/17'),
+('90384634-D77E-4AC4-9460-1DD329256E7A',N'Kiểm thử nâng cao',1800000,8,'2022/11/10','2022/11/17'),
+('90384634-D77E-4AC4-9460-1DD329256E7A',N'Front-end Framework',1800000,8,'2022/11/10','2022/11/17'),
+('90384634-D77E-4AC4-9460-1DD329256E7A',N'Lập trình Java 4',2600000,8,'2022/11/10','2022/11/17'),
+-- ky 6
+('5EFF612F-0C0E-45F0-94CA-65D4D3463CFC',N'Lập trình Java 5',1800000,8,'2022/11/10','2022/11/17'),
+('5EFF612F-0C0E-45F0-94CA-65D4D3463CFC',N'Lập trình Java 6',1800000,8,'2022/11/10','2022/11/17'),
+('5EFF612F-0C0E-45F0-94CA-65D4D3463CFC',N'Python 2',1800000,8,'2022/11/10','2022/11/17'),
+('5EFF612F-0C0E-45F0-94CA-65D4D3463CFC',N'Python 3',2600000,8,'2022/11/10','2022/11/17')
+-- ky 7 
+insert into MonHoc(idHocKy,tenMon,hocPhi,thoiLuong,ngayTao,ngaySua)
+values
+('17CD47C2-6A35-4CEE-BCFC-E55C1113D253',N'Thực tập tốt nghiệp',1800000,8,'2022/11/10','2022/11/17'),
+('17CD47C2-6A35-4CEE-BCFC-E55C1113D253',N'Dự án tốt nghiệp (Spring Boot)',1800000,8,'2022/11/10','2022/11/17'),
+('17CD47C2-6A35-4CEE-BCFC-E55C1113D253',N'Python 2',1800000,8,'2022/11/10','2022/11/17'),
+('17CD47C2-6A35-4CEE-BCFC-E55C1113D253',N'Python 3',2600000,8,'2022/11/10','2022/11/17')
+select*from HocKy
