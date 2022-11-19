@@ -281,3 +281,20 @@ values
 ('17CD47C2-6A35-4CEE-BCFC-E55C1113D253',N'Python 2',1800000,8,'2022/11/10','2022/11/17'),
 ('17CD47C2-6A35-4CEE-BCFC-E55C1113D253',N'Python 3',2600000,8,'2022/11/10','2022/11/17')
 select*from HocKy
+
+insert into ChucVu(idChucVu,tenChucVu,ngayTao,ngaySua)
+values
+('0',N'Giảng Viên','2022/11/15','2022/11/15'),
+('1','Admin','2022/11/15','2022/11/15')
+
+insert into NhanVien(maNV,ho,tenDem,ten,email,diaChi,sdt,matKhau,idChucVu,ngayTao,ngaySua)
+values 
+('nguyenvv','Vu','Van','Nguyen','nguyenvv4@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('khanhhq','Ha','Quoc','Khanh','khanhhq@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('hieucv','Chu','Van','Hieu','hieucv@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('dotd','Tran','Duc','Do','dotd@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('minhmn','Mai','Ngoc','Minh','minhmn@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('thangnc','Nguyen','Cong','Thang','thangncph20964@fpt.edu.vn','HN','0999999999','1234','0','2022/11/15','2022/11/15'),
+('vannv','Nguyen','Van','Van','vannvph28656@fpt.edu.vn','HN','0999999999','1234','1','2022/11/15','2022/11/15')
+
+select * from NhanVien
