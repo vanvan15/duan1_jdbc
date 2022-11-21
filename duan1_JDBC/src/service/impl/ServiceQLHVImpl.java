@@ -39,4 +39,14 @@ public class ServiceQLHVImpl implements ServiceQLHV{
             return false;
         }
     }
+
+    @Override
+    public boolean Delete(String ma) {
+         boolean Delete = qlhvr.Delete(ma);
+        if (Delete) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

@@ -16,6 +16,7 @@ import model.HocVien;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class QLHocVienRepository {
 
@@ -105,6 +106,19 @@ public class QLHocVienRepository {
             check = pr.executeUpdate();
 
         } catch (Exception e) {
+        }
+        return check > 0;
+    }
+
+    public boolean Delete(String ma) {
+        String query = "DELETE FROM [dbo].[HocVien]\n"
+                + "      WHERE maHV = ?";
+        int check = 0;
+        try (Connection con = SQLConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setObject(1, ma);
+            check = ps.executeUpdate();
+        } catch (SQLException e) {
         }
         return check > 0;
     }

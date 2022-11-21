@@ -16,4 +16,5 @@ public interface ServiceQLHV {
     List<HocVien> GetAllDaTa();
     boolean addhv(HocVien hocVien);
     boolean updateHv(HocVien hocVien, String ma);
+    boolean Delete(String ma);
 }
