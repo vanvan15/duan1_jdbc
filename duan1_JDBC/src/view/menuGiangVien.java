@@ -17,8 +17,9 @@ public class menuGiangVien extends javax.swing.JFrame {
         initComponents();
     }
 
-    public menuGiangVien(String user) {
+    public menuGiangVien(String maNV) {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
