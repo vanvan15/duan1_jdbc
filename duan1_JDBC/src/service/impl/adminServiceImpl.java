@@ -5,6 +5,10 @@
 package service.impl;
 
 import java.util.List;
+import model.CaHoc;
+import model.HocKy;
+import model.Lop;
+import model.MonHoc;
 import model.NhanVien;
 import service.adminService;
 import repository.NhanVienAdminRepository;
@@ -64,4 +68,70 @@ public class adminServiceImpl implements adminService {
         }
     }
 
+    @Override
+    public List<Lop> getListLop() {
+        return nvrp.getListLop();
+    }
+
+    @Override
+    public List<CaHoc> getListCaHoc() {
+        return nvrp.getListCaHoc();
+    }
+
+    @Override
+    public List<MonHoc> getListMonHoc() {
+        return nvrp.getListMonHoc();
+    }
+
+    @Override
+    public List<HocKy> getListHocKy() {
+        return nvrp.getListHocKy();
+    }
+
+    @Override
+    public List<HocKy> sortHocKy(List<HocKy> list) {
+        list.sort((o1, o2) -> {
+            Integer i1 = o1.getHocKy();
+            Integer i2 = o2.getHocKy();
+            return i1.compareTo(i2);
+        });
+        return list;
+    }
+
+    @Override
+    public HocKy getHocKy(String id) {
+        return nvrp.getHocKy(id);
+    }
+
+    @Override
+    public String getIdHocKi(int hocki) {
+        return nvrp.getIdHocKi(hocki);
+    }
+
+    @Override
+    public boolean updateMonHoc(String id, MonHoc mh) {
+        if (nvrp.updateMonHoc(id, mh)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean addMonHoc(MonHoc mh) {
+        if (nvrp.addMonHoc(mh)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteMonHoc(String idMonHoc) {
+        if (nvrp.deleteMonHoc(idMonHoc)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
