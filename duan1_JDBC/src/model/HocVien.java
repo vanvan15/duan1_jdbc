@@ -21,6 +21,8 @@ public class HocVien {
     private String sdt;
     private Date ngaySinh;
     private int trangThai;
+    private String diaChi;
+    private String img;
     private String matKhau;
     private Date ngayTao;
     private Date ngaySua;
@@ -121,7 +123,7 @@ public class HocVien {
         this.ngaySua = ngaySua;
     }
 
-    public HocVien(String idHocVien, String maHV, String ho, String tenDem, String ten, String email, String sdt, Date ngaySinh, int trangThai, String matKhau, Date ngayTao, Date ngaySua) {
+    public HocVien(String idHocVien, String maHV, String ho, String tenDem, String ten, String email, String sdt, Date ngaySinh, int trangThai, String diaChi, String matKhau, Date ngayTao, Date ngaySua) {
         this.idHocVien = idHocVien;
         this.maHV = maHV;
         this.ho = ho;
@@ -131,9 +133,18 @@ public class HocVien {
         this.sdt = sdt;
         this.ngaySinh = ngaySinh;
         this.trangThai = trangThai;
+        this.diaChi = diaChi;
         this.matKhau = matKhau;
         this.ngayTao = ngayTao;
         this.ngaySua = ngaySua;
+    }
+
+    public String getDiaChi() {
+        return diaChi;
+    }
+
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
     }
 
     public HocVien() {
