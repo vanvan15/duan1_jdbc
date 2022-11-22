@@ -126,4 +126,7 @@ public class Lop {
         this.ngaySua = ngaySua;
     }
 
+    public Lop() {
+    }
+    
 }

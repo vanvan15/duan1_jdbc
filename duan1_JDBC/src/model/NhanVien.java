@@ -23,6 +23,7 @@ public class NhanVien {
     private Date ngaySinh;
     private int trangThai;
     private String matKhau;
+    private String img;
     private int idChucVu;
     private Date ngayTao;
     private Date ngaySua;
