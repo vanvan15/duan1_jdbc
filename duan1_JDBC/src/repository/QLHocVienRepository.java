@@ -21,7 +21,8 @@ import java.sql.SQLException;
 public class QLHocVienRepository {
 
     public List<HocVien> GetAllDaTa() {
-        String Query = "SELECT id, maHV, ho, tenDem, ten, email, diaChi, sdt, ngaySinh, trangThai, matKhau, ngayTao, ngaySua\n"
+        String Query = "SELECT id, maHV, ho, tenDem, ten, email, diaChi, sdt, ngaySinh, "
+                + "trangThai, matKhau, ngayTao, ngaySua,anh,gioiTinh\n"
                 + "FROM  HocVien ";
         List<HocVien> hocVien = new ArrayList<>();
         try (Connection conn = SQLConnection.getConnection();
@@ -42,6 +43,8 @@ public class QLHocVienRepository {
                 hv.setMatKhau(rs.getString("matKhau"));
                 hv.setNgayTao(rs.getDate("ngayTao"));
                 hv.setNgaySua(rs.getDate("ngaySua"));
+                hv.setImg(rs.getString("anh"));
+                hv.setGioiTinh(rs.getBoolean("gioiTinh"));
 
                 hocVien.add(hv);
             }
@@ -55,8 +58,8 @@ public class QLHocVienRepository {
         java.sql.Date date = new java.sql.Date(mil);
         int check = 0;
         String query = "INSERT INTO HocVien\n"
-                + "                  (maHV, ho, tenDem, ten, email, diaChi, sdt, ngaySinh, trangThai, matKhau, ngayTao, ngaySua)\n"
-                + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "                  (maHV, ho, tenDem, ten, email, diaChi, sdt, ngaySinh, trangThai, matKhau, ngayTao, ngaySua,anh,gioiTinh)\n"
+                + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection conn = SQLConnection.getConnection();
                 PreparedStatement pr = conn.prepareStatement(query)) {
@@ -73,6 +76,8 @@ public class QLHocVienRepository {
             pr.setObject(10, "1234");
             pr.setObject(11, date);
             pr.setObject(12, date);
+            pr.setObject(13, hocVien.getImg());
+            pr.setObject(14, hocVien.isGioiTinh());
 
             check = pr.executeUpdate();
 
@@ -87,7 +92,7 @@ public class QLHocVienRepository {
         int check = 0;
         String query = "UPDATE HocVien\n"
                 + "SET  maHV =?, ho =?, tenDem =?, ten =?, email =?, diaChi =?,"
-                + " sdt =?, ngaySinh =?, trangThai =?, matKhau =?, ngaySua =? where maHV = ?";
+                + " sdt =?, ngaySinh =?, trangThai =?, matKhau =?, ngaySua =? ,anh = ?,gioitinh = ? where maHV = ?";
         try (Connection conn = SQLConnection.getConnection();
                 PreparedStatement pr = conn.prepareStatement(query)) {
             pr.setObject(1, hocVien.getMaHV());
@@ -101,7 +106,11 @@ public class QLHocVienRepository {
             pr.setObject(9, 0);
             pr.setObject(10, "1234");
             pr.setObject(11, date);
-            pr.setObject(12, ma);
+            pr.setObject(12, hocVien.getImg());
+            pr.setObject(13, hocVien.isGioiTinh());
+            pr.setObject(14, ma);
+            
+           
 
             check = pr.executeUpdate();
 
