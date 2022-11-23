@@ -4,17 +4,32 @@
  */
 package view;
 
+import java.math.BigDecimal;
+import javax.swing.JOptionPane;
+import model.Vi;
+import service.impl.viImpl;
+
 /**
  *
  * @author Dell
  */
 public class formNapTien extends javax.swing.JFrame {
 
+    private viImpl vil = new viImpl();
+    
+    private String ma;
+
     /**
      * Creates new form formNapTien
      */
     public formNapTien() {
         initComponents();
+    }
+    
+    public formNapTien(String maHV) {
+        initComponents();
+        setLocationRelativeTo(null);
+        ma = maHV;
     }
 
     /**
@@ -40,6 +55,11 @@ public class formNapTien extends javax.swing.JFrame {
         jLabel2.setText("Nhập Số Tiền");
 
         btnThanhToan.setText("Thanh Toán");
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
 
         btnExit.setText("Quay Lại");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -90,10 +110,19 @@ public class formNapTien extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        formVi hV = new formVi();
+        formVi hV = new formVi(ma);
         hV.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        // TODO add your handling code here:
+        String id = vil.getIDHocVien(ma);
+        BigDecimal monney = BigDecimal.valueOf(Double.parseDouble(txtNhapTien.getText()));
+        Vi v = new Vi();
+        v.setSoDuVi(monney);
+        JOptionPane.showMessageDialog(rootPane, vil.updateV(id, v));
+    }//GEN-LAST:event_btnThanhToanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,15 +162,6 @@ public class formNapTien extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnThanhToan;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField txtNhapTien;
