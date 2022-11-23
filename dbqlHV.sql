@@ -35,8 +35,10 @@ create table NhanVien
     ngaySua date,
     FOREIGN KEY (idChucVu) REFERENCES ChucVu
 )
-alter table NhanVien add anh varchar(50)
-alter table HocVien add anh varchar(50)
+alter table NhanVien alter column anh varchar(500)
+alter table HocVien alter column anh varchar(500)
+alter table NhanVien add gioiTinh bit
+alter table HocVien add gioiTinh bit
 if OBJECT_ID('HocKy') is not null
 drop table HocKy
 go
@@ -223,6 +225,17 @@ select*from Lichhoc
 select*from HocKy
 select*from MonHoc
 delete from HocKy
+if OBJECT_ID('LichSuNapTien') is not null
+drop table LichSuNapTien
+go
+create table LichSuNapTien
+(
+    idNapTien UNIQUEIDENTIFIER DEFAULT newID() PRIMARY KEY,
+    tienNap decimal default 0,
+	ngayNap date,
+	idVi UNIQUEIDENTIFIER,
+	foreign key (idVi) references Vi
+)
 update NhanVien set matKhau = '1234' where maNV = 'Nv03'
 insert into HocKy(hocKy,moTa,thoiLuong,ngayTao,ngaySua)
 values
@@ -301,3 +314,6 @@ INSERT INTO HocVien(maHV,ho,ten,tenDem,email,diaChi,sdt,ngaySinh,trangThai,matKh
         ('mahv003','Ða','Ma','Anh','anhtcph2000@fpt.edu.vn','HN','0999999999','2003/11/11',0,'1234','2022/11/10','2022/11/14'),
         ('mahv004','Long','Ta','Tâm','tamtcph2000@fpt.edu.vn','HN','0999999999','2003/11/11',0,'1234','2022/11/10','2022/11/14'),
         ('mahv005','Lê','Thanh','Ti?n','tientcph2000@fpt.edu.vn','HN','0999999999','2003/11/11',0,'1234','2022/11/10','2022/11/14')
+update NhanVien set gioiTinh = 0
+update HocVien set gioiTinh = 0
+select * from NhanVien
