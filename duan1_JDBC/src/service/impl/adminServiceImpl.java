@@ -7,7 +7,9 @@ package service.impl;
 import java.util.List;
 import model.CaHoc;
 import model.HocKy;
+import model.HocVien;
 import model.Lop;
+import model.LopHocVien;
 import model.MonHoc;
 import model.NhanVien;
 import service.adminService;
@@ -133,5 +135,155 @@ public class adminServiceImpl implements adminService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean addLop(Lop lop) {
+        if (nvrp.addLop(lop)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public MonHoc getMonHoc(String id) {
+        return nvrp.getMonHoc(id);
+    }
+
+    @Override
+    public CaHoc getCaHoc(String id) {
+        return nvrp.getCaHoc(id);
+    }
+
+    @Override
+    public String getIdByMaCa(String maCa) {
+        return nvrp.getIdByMaCa(maCa);
+    }
+
+    @Override
+    public String getIdByTenMon(String tenMon) {
+        return nvrp.getIdByTenMon(tenMon);
+    }
+
+    @Override
+    public String getTenGV(String id) {
+        return nvrp.getTenGV(id);
+    }
+
+    @Override
+    public NhanVien getOneGV(String maNV) {
+        return nvrp.getOneGV(maNV);
+    }
+
+    @Override
+    public boolean phanQuyenGV(Lop l, String idGV) {
+        if (nvrp.phanQuyenGV(l, idGV)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<HocVien> getHocVien1(String idMH) {
+        return nvrp.getHocVien1(idMH);
+    }
+
+    @Override
+    public boolean addLopHv(LopHocVien lv) {
+        if (nvrp.addLopHv(lv)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateSLHV(String idLop) {
+        if (nvrp.updateSLHV(idLop)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateHV(String id) {
+        if (nvrp.updateHV(id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<LopHocVien> getListLopHV() {
+        return nvrp.getListLopHV();
+    }
+
+    @Override
+    public HocVien getHVById(String id) {
+        return nvrp.getHVById(id);
+    }
+
+    @Override
+    public List<HocVien> getHocVienByIdLop(String idLop) {
+        return nvrp.getHocVienByIdLop(idLop);
+    }
+
+    @Override
+    public HocKy getHocKyByIdLop(String idLop) {
+        return nvrp.getHocKyByIdLop(idLop);
+    }
+
+    @Override
+    public boolean xoaPhanQuyen(String idLop) {
+        return nvrp.xoaPhanQuyen(idLop);
+    }
+
+    @Override
+    public boolean updateTTLop(String idLop) {
+        return nvrp.updateTTLop(idLop);
+    }
+
+    @Override
+    public boolean updateLop(Lop l) {
+        return nvrp.updateLop(l);
+    }
+
+    @Override
+    public boolean deleteLop(String idLop) {
+        return nvrp.deleteLop(idLop);
+    }
+
+    @Override
+    public boolean deleteLopHV(String idLop) {
+        return nvrp.deleteLopHV(idLop);
+    }
+
+    @Override
+    public boolean addKqht(String idHV, String idMonHoc) {
+        return nvrp.addKqht(idHV, idMonHoc);
+    }
+
+    @Override
+    public boolean deleteKqht(String idHV, String idMonHoc) {
+        return nvrp.deleteKqht(idHV, idMonHoc);
+    }
+
+    @Override
+    public boolean deleteLopHV(String idHV, String idLop) {
+        return nvrp.deleteLopHV(idHV, idLop);
+    }
+
+    @Override
+    public boolean updateSLHV2(String idLop) {
+        return nvrp.updateSLHV2(idLop);
+    }
+
+    @Override
+    public boolean addVi(String idHV) {
+        return nvrp.addVi(idHV);
     }
 }

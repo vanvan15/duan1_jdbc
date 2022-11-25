@@ -7,7 +7,9 @@ package service;
 import java.util.List;
 import model.CaHoc;
 import model.HocKy;
+import model.HocVien;
 import model.Lop;
+import model.LopHocVien;
 import model.MonHoc;
 import model.NhanVien;
 
@@ -44,10 +46,62 @@ public interface adminService {
     HocKy getHocKy(String id);
 
     String getIdHocKi(int hocki);
-    
+
     boolean updateMonHoc(String id, MonHoc mh);
-    
+
     boolean addMonHoc(MonHoc mh);
-    
+
     boolean deleteMonHoc(String idMonHoc);
+
+    boolean addLop(Lop lop);
+
+    MonHoc getMonHoc(String id);
+
+    CaHoc getCaHoc(String id);
+
+    String getIdByMaCa(String maCa);
+
+    String getIdByTenMon(String tenMon);
+
+    String getTenGV(String id);
+
+    NhanVien getOneGV(String maNV);
+
+    boolean phanQuyenGV(Lop l, String idGV);
+
+    List<HocVien> getHocVien1(String idMH);
+
+    boolean addLopHv(LopHocVien lv);
+
+    boolean updateSLHV(String idLop);
+
+    boolean updateHV(String id);
+
+    List<LopHocVien> getListLopHV();
+
+    HocVien getHVById(String id);
+
+    List<HocVien> getHocVienByIdLop(String idLop);
+
+    HocKy getHocKyByIdLop(String idLop);
+
+    boolean xoaPhanQuyen(String idLop);
+
+    boolean updateTTLop(String idLop);
+
+    boolean updateLop(Lop l);
+
+    boolean deleteLop(String idLop);
+
+    boolean deleteLopHV(String idLop);
+
+    boolean addKqht(String idHV, String idMonHoc);
+
+    boolean deleteKqht(String idHV, String idMonHoc);
+
+    boolean deleteLopHV(String idHV, String idLop);
+
+    boolean updateSLHV2(String idLop);
+
+    boolean addVi(String idHV);
 }
