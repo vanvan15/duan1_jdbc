@@ -4,16 +4,21 @@
  */
 package service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import model.CaHoc;
+import model.DongHocPhi;
 import model.HocKy;
 import model.HocVien;
+import model.LichHoc;
 import model.Lop;
 import model.LopHocVien;
 import model.MonHoc;
 import model.NhanVien;
 import service.adminService;
 import repository.NhanVienAdminRepository;
+import viewmodel.thongKeViewModel1;
+import viewmodel.thongKeViewModel2;
 
 /**
  *
@@ -286,4 +291,130 @@ public class adminServiceImpl implements adminService {
     public boolean addVi(String idHV) {
         return nvrp.addVi(idHV);
     }
+
+    @Override
+    public List<LichHoc> getListLichHoc(String idLop) {
+        return nvrp.getListLichHoc(idLop);
+    }
+
+    @Override
+    public NhanVien getGVByIdLop(String idLop) {
+        return nvrp.getGVByIdLop(idLop);
+    }
+
+    @Override
+    public CaHoc getCaHocByIdLop(String idLop) {
+        return nvrp.getCaHocByIdLop(idLop);
+    }
+
+    @Override
+    public MonHoc getMonHocByIdLop(String idLop) {
+        return nvrp.getMonHocByIdLop(idLop);
+    }
+
+    @Override
+    public boolean addLichHoc(LichHoc lh) {
+        return nvrp.addLichHoc(lh);
+    }
+
+    @Override
+    public boolean updateLichHoc(LichHoc lh) {
+        return nvrp.updateLichHoc(lh);
+    }
+
+    @Override
+    public boolean checkLH(LichHoc lh) {
+        return nvrp.checkLH(lh);
+    }
+
+    @Override
+    public boolean updateTTDHP(String idHocVien, String idMH) {
+        return nvrp.updateTTDHP(idHocVien, idMH);
+    }
+
+    @Override
+    public List<MonHoc> listPTMonHoc(int pageIndex, int pageNumber) {
+        return nvrp.listPTMonHoc(pageIndex, pageNumber);
+    }
+
+    @Override
+    public List<HocVien> listPTHocVien(int pageIndex, int pageNumber) {
+        return nvrp.listPTHocVien(pageIndex, pageNumber);
+    }
+
+    @Override
+    public List<HocVien> getAllHocVien() {
+        return nvrp.getAllHocVien();
+    }
+
+    @Override
+    public boolean addDHP(DongHocPhi dhp) {
+        return nvrp.addDHP(dhp);
+    }
+
+    @Override
+    public boolean updateTTHV(String idHV) {
+        return nvrp.updateTTHV(idHV);
+    }
+
+    @Override
+    public List<DongHocPhi> getListDHP() {
+        return nvrp.getListDHP();
+    }
+
+    @Override
+    public boolean updateTTDHP1(String idHV, String idMonHoc) {
+        return nvrp.updateTTDHP1(idHV, idMonHoc);
+    }
+
+    @Override
+    public boolean deleteLH(String idLH) {
+        return nvrp.deleteLH(idLH);
+    }
+
+    @Override
+    public MonHoc getMHByID(String id) {
+        return nvrp.getMHByID(id);
+    }
+
+    @Override
+    public List<DongHocPhi> getListPTDHP(int pageIndex, int pageNumber) {
+        return nvrp.getListPTDHP(pageIndex, pageNumber);
+    }
+
+    @Override
+    public List<MonHoc> listSearchMonHoc(String text) {
+        return nvrp.listSearchMonHoc(text);
+    }
+
+    @Override
+    public BigDecimal thongKeTongTien() {
+        return nvrp.thongKeTongTien();
+    }
+
+    @Override
+    public int tkSLHV() {
+        return nvrp.tkSLHV();
+    }
+
+    @Override
+    public List<NhanVien> listPTGV(int pageIndex, int pageNum) {
+        return nvrp.listPTGV(pageIndex, pageNum);
+    }
+
+    @Override
+    public List<NhanVien> listSearchGV(String text) {
+        return nvrp.listSearchGV(text);
+    }
+
+    @Override
+    public List<thongKeViewModel1> tKHPHV() {
+        return nvrp.tKHPHV();
+    }
+
+    @Override
+    public List<thongKeViewModel2> tKHPMH() {
+        return nvrp.tKHPMH();
+    }
+
 }
