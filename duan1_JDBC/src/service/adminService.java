@@ -4,14 +4,19 @@
  */
 package service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import model.CaHoc;
+import model.DongHocPhi;
 import model.HocKy;
 import model.HocVien;
+import model.LichHoc;
 import model.Lop;
 import model.LopHocVien;
 import model.MonHoc;
 import model.NhanVien;
+import viewmodel.thongKeViewModel1;
+import viewmodel.thongKeViewModel2;
 
 /**
  *
@@ -104,4 +109,54 @@ public interface adminService {
     boolean updateSLHV2(String idLop);
 
     boolean addVi(String idHV);
+
+    List<LichHoc> getListLichHoc(String idLop);
+
+    NhanVien getGVByIdLop(String idLop);
+
+    CaHoc getCaHocByIdLop(String idLop);
+
+    MonHoc getMonHocByIdLop(String idLop);
+
+    boolean addLichHoc(LichHoc lh);
+
+    boolean updateLichHoc(LichHoc lh);
+
+    boolean checkLH(LichHoc lh);
+
+    boolean updateTTDHP(String idHocVien, String idMH);
+
+    List<MonHoc> listPTMonHoc(int pageIndex, int pageNumber);
+
+    List<HocVien> listPTHocVien(int pageIndex, int pageNumber);
+
+    List<HocVien> getAllHocVien();
+
+    boolean addDHP(DongHocPhi dhp);
+
+    boolean updateTTHV(String idHV);
+
+    List<DongHocPhi> getListDHP();
+
+    boolean updateTTDHP1(String idHV, String idMonHoc);
+
+    boolean deleteLH(String idLH);
+
+    MonHoc getMHByID(String id);
+
+    List<DongHocPhi> getListPTDHP(int pageIndex, int pageNumber);
+
+    List<MonHoc> listSearchMonHoc(String text);
+
+    BigDecimal thongKeTongTien();
+
+    int tkSLHV();
+
+    List<NhanVien> listPTGV(int pageIndex, int pageNum);
+
+    List<NhanVien> listSearchGV(String text);
+
+    List<thongKeViewModel1> tKHPHV();
+    
+    List<thongKeViewModel2> tKHPMH();
 }

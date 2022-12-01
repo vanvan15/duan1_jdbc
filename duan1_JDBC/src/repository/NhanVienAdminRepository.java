@@ -5,19 +5,25 @@
 package repository;
 
 import Utilities.SQLConnection;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import model.CaHoc;
+import model.DongHocPhi;
 import model.HocKy;
 import model.HocVien;
+import model.LichHoc;
 import model.Lop;
 import model.LopHocVien;
 import model.MonHoc;
 import model.NhanVien;
+import viewmodel.thongKeViewModel1;
+import viewmodel.thongKeViewModel2;
 
 /**
  *
@@ -31,6 +37,205 @@ public class NhanVienAdminRepository {
         try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, newPass);
             ps.setObject(2, maNV);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+
+    public boolean updateTTHV(String idHV) {
+        int check = 0;
+        String query = "Update HocVien Set trangThai = 1 where id = ? ";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, idHV);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+
+    public List<MonHoc> listSearchMonHoc(String text) {
+        List<MonHoc> list = new ArrayList<>();
+        String query = "select id,idHocKy,tenMon,hocPhi,thoiLuong from MonHoc where tenMon like N'%"
+                + text + "%'";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                MonHoc mh = new MonHoc();
+                mh.setId(rs.getString("id"));
+                mh.setIdHocKy(rs.getString("idHocKy"));
+                mh.setTenMon(rs.getString("tenMon"));
+                mh.setHocPhi(rs.getBigDecimal("hocPhi"));
+                mh.setThoiLuong(rs.getInt("thoiLuong"));
+                list.add(mh);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return list;
+    }
+
+    public List<DongHocPhi> getListPTDHP(int pageIndex, int pageNumber) {
+        List<DongHocPhi> list = new ArrayList<>();
+        String query = "Exec Paging3 ?,? ";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, pageIndex);
+            ps.setObject(2, pageNumber);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                DongHocPhi dhp = new DongHocPhi();
+                dhp.setIdDongHP(rs.getString("idDongHP"));
+                dhp.setIdHocVien(rs.getString("idHocVien"));
+                dhp.setIdMonHoc(rs.getString("idMonHoc"));
+                dhp.setNgayDong(rs.getDate("ngayDong"));
+                dhp.setTienDong(rs.getBigDecimal("tienDong"));
+                list.add(dhp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return list;
+    }
+
+    public List<DongHocPhi> getListDHP() {
+        List<DongHocPhi> list = new ArrayList<>();
+        String query = "select idDongHP,idHocVien,idMonHoc,ngayDong,tienDong,trangThai from DongHocPhi";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                DongHocPhi dhp = new DongHocPhi();
+                dhp.setIdDongHP(rs.getString("idDongHP"));
+                dhp.setIdHocVien(rs.getString("idHocVien"));
+                dhp.setIdMonHoc(rs.getString("idMonHoc"));
+                dhp.setNgayDong(rs.getDate("ngayDong"));
+                dhp.setTienDong(rs.getBigDecimal("tienDong"));
+                dhp.setTrangThai(rs.getInt("trangThai"));
+                list.add(dhp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return list;
+    }
+
+    public boolean addDHP(DongHocPhi dhp) {
+        long mil = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(mil);
+        int check = 0;
+        String query = "INSERT INTO [dbo].[DongHocPhi]\n"
+                + "           ([idHocVien]\n"
+                + "           ,[idMonHoc]\n"
+                + "           ,[ngayDong]\n"
+                + "           ,[tienDong]\n"
+                + "           ,[trangThai]\n"
+                + "           ,[ngayTao])\n"
+                + "     VALUES\n"
+                + "           (?,?,?,?,?,?)";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, dhp.getIdHocVien());
+            ps.setObject(2, dhp.getIdMonHoc());
+            ps.setObject(3, date);
+            ps.setObject(4, dhp.getTienDong());
+            ps.setObject(5, 1);
+            ps.setObject(6, date);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+
+    public List<HocVien> listPTHocVien(int pageIndex, int pageNumber) {
+        String query = "Exec Paging1 ?,? ";
+        List<HocVien> listHV = new ArrayList<>();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, pageIndex);
+            ps.setObject(2, pageNumber);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HocVien hv = new HocVien();
+                hv.setIdHocVien(rs.getString("id"));
+                hv.setMaHV(rs.getString("maHV"));
+                hv.setHo(rs.getString("ho"));
+                hv.setTenDem(rs.getString("tenDem"));
+                hv.setTen(rs.getString("ten"));
+                hv.setEmail(rs.getString("email"));
+                hv.setDiaChi(rs.getString("diaChi"));
+                hv.setSdt(rs.getString("sdt"));
+                hv.setNgaySinh(rs.getDate("ngaySinh"));
+                hv.setTrangThai(rs.getInt("trangThai"));
+                hv.setMatKhau(rs.getString("matKhau"));
+                hv.setImg(rs.getString("anh"));
+                hv.setGioiTinh(rs.getBoolean("gioiTinh"));
+                listHV.add(hv);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return listHV;
+    }
+
+    public List<MonHoc> listPTMonHoc(int pageIndex, int pageNumber) {
+        String query = "Exec Paging2 ?,? ";
+        List<MonHoc> listMH = new ArrayList<>();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, pageIndex);
+            ps.setObject(2, pageNumber);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                MonHoc mh = new MonHoc();
+                mh.setId(rs.getString("id"));
+                mh.setIdHocKy(rs.getString("idHocKy"));
+                mh.setTenMon(rs.getString("tenMon"));
+                mh.setHocPhi(rs.getBigDecimal("hocPhi"));
+                mh.setThoiLuong(rs.getInt("thoiLuong"));
+                listMH.add(mh);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return listMH;
+    }
+
+    public List<HocVien> getAllHocVien() {
+        String Query = "SELECT id, maHV, ho, tenDem, ten, email, diaChi, sdt, ngaySinh, trangThai, matKhau, ngayTao, ngaySua\n"
+                + " ,anh,gioiTinh FROM  HocVien ";
+        List<HocVien> listHV = new ArrayList<>();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement pr = conn.prepareStatement(Query)) {
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()) {
+                HocVien hv = new HocVien();
+                hv.setIdHocVien(rs.getString("id"));
+                hv.setMaHV(rs.getString("maHV"));
+                hv.setHo(rs.getString("ho"));
+                hv.setTenDem(rs.getString("tenDem"));
+                hv.setTen(rs.getString("ten"));
+                hv.setEmail(rs.getString("email"));
+                hv.setDiaChi(rs.getString("diaChi"));
+                hv.setSdt(rs.getString("sdt"));
+                hv.setNgaySinh(rs.getDate("ngaySinh"));
+                hv.setTrangThai(rs.getInt("trangThai"));
+                hv.setMatKhau(rs.getString("matKhau"));
+                hv.setNgayTao(rs.getDate("ngayTao"));
+                hv.setNgaySua(rs.getDate("ngaySua"));
+                hv.setImg(rs.getString("anh"));
+                hv.setGioiTinh(rs.getBoolean("gioiTinh"));
+                listHV.add(hv);
+            }
+        } catch (Exception e) {
+        }
+        return listHV;
+    }
+
+    public boolean updateTTDHP(String idHocVien, String idMH) {
+        int check = 0;
+        String query = "Update DongHocPhi Set trangThai = 2 where idHocVien = ? \n"
+                + " and idMonHoc = ?";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, idHocVien);
+            ps.setObject(2, idMH);
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -56,6 +261,18 @@ public class NhanVienAdminRepository {
             ps.setObject(3, date);
             ps.setObject(4, date);
             ps.setObject(5, 0);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+
+    public boolean deleteLichHoc(LichHoc lh) {
+        int check = 0;
+        String query = "Delete From LichHoc Where id = ?";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, lh.getId());
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -106,6 +323,151 @@ public class NhanVienAdminRepository {
             e.printStackTrace(System.out);
         }
         return check > 0;
+    }
+
+    public List<LichHoc> getListLichHoc(String idLop) {
+        String query = "Select id,idLop,ngayHoc,trangThai,ngayTao,ngaySua from LichHoc where idLop = ? \n"
+                + " ORDER by day(ngayHoc),MONTH(ngayHoc) ,YEAR(ngayHoc) asc";
+        List<LichHoc> list = new ArrayList<>();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, idLop);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                LichHoc lh = new LichHoc();
+                lh.setId(rs.getString("id"));
+                lh.setIdLop(rs.getString("idLop"));
+                lh.setTrangThai(rs.getInt("trangThai"));
+                lh.setNgayHoc(rs.getDate("ngayHoc"));
+                lh.setNgayTao(rs.getDate("ngayTao"));
+                lh.setNgaySua(rs.getDate("ngaySua"));
+                list.add(lh);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return list;
+    }
+
+    public boolean checkLH(LichHoc lh) {
+        boolean check = true;
+        String query = "Select id,idLop,ngayHoc from LichHoc Where id = ? and idLop = ? "
+                + " and ngayHoc = ?";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, lh.getId());
+            ps.setObject(2, lh.getIdLop());
+            ps.setObject(3, lh.getNgayHoc());
+            ResultSet rs = ps.executeQuery();
+            check = rs.next();
+        } catch (Exception e) {
+        }
+        return check;
+    }
+
+    public boolean updateLichHoc(LichHoc lh) {
+        int check = 0;
+        String query = "Update LichHoc Set ngayHoc = ? where id = ?";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, lh.getNgayHoc());
+            ps.setObject(2, lh.getId());
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+        }
+        return check > 0;
+    }
+
+    public boolean addLichHoc(LichHoc lh) {
+        long mil = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(mil);
+        int check = 0;
+        String query = "INSERT INTO [dbo].[LichHoc]\n"
+                + "           ([idLop]\n"
+                + "           ,[ngayHoc]\n"
+                + "           ,[trangThai]\n"
+                + "           ,[ngayTao]\n"
+                + "           ,[ngaySua])\n"
+                + "     VALUES\n"
+                + "           (?,?,?,?,?)";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, lh.getIdLop());
+            ps.setObject(2, lh.getNgayHoc());
+            ps.setObject(3, 0);
+            ps.setObject(4, date);
+            ps.setObject(5, date);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+
+    public MonHoc getMonHocByIdLop(String idLop) {
+        String query = "select  mh.id,mh.idHocKy,mh.tenMon,mh.hocPhi,mh.thoiLuong,mh.trangThai\n"
+                + "from LichHoc lh join Lop l on lh.idLop = l.id join MonHoc mh on l.idMonHoc = mh.id\n"
+                + "where l.id = ?";
+        MonHoc mh = new MonHoc();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, idLop);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                mh.setId(rs.getString(1));
+                mh.setIdHocKy(rs.getString(2));
+                mh.setTenMon(rs.getString(3));
+                mh.setHocPhi(rs.getBigDecimal(4));
+                mh.setThoiLuong(rs.getInt(5));
+                mh.setTrangThai(rs.getInt(6));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return mh;
+    }
+
+    public CaHoc getCaHocByIdLop(String idLop) {
+        String query = "select ch.id,ch.maCa,ch.thoiGian,ch.trangThai from LichHoc \n"
+                + " lh join Lop l on lh.idLop = l.id join CaHoc ch on l.idCa = ch.id \n"
+                + " where l.id = ?";
+        CaHoc ch = new CaHoc();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, idLop);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ch.setId(rs.getString(1));
+                ch.setMaCa(rs.getString(2));
+                ch.setThoiGian(rs.getString(3));
+                ch.setTrangThai(rs.getInt(4));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return ch;
+    }
+
+    public NhanVien getGVByIdLop(String idLop) {
+        String query = "select nv.id,nv.maNV,nv.ho,nv.tenDem,nv.ten,nv.email,nv.diaChi,nv.sdt"
+                + " ,nv.ngaySinh,nv.trangThai,nv.matKhau,nv.gioiTinh from NhanVien"
+                + " nv join Lop l on nv.id = l.idGiangVien where l.id = ?";
+        NhanVien nv = new NhanVien();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, idLop);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                nv.setId(rs.getString("id"));
+                nv.setMaNV(rs.getString("maNV"));
+                nv.setTen(rs.getString("ten"));
+                nv.setTenDem(rs.getString("tenDem"));
+                nv.setHo(rs.getString("ho"));
+                nv.setEmail(rs.getString("email"));
+                nv.setDiaChi(rs.getString("diaChi"));
+                nv.setSdt(rs.getString("sdt"));
+                nv.setNgaySinh(rs.getDate("ngaySinh"));
+                nv.setTrangThai(rs.getInt("trangThai"));
+                nv.setMatKhau(rs.getString("matKhau"));
+                nv.setGioiTinh(rs.getBoolean("gioiTinh"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return nv;
     }
 
     public boolean deleteLopHV(String idHV, String idLop) {
@@ -238,8 +600,7 @@ public class NhanVienAdminRepository {
     }
 
     public static void main(String[] args) {
-        List<HocVien> listHV = new NhanVienAdminRepository().getHocVienByIdLop("99108453-7774-46B2-AF94-0D1F9C4AA113");
-        listHV.forEach(h -> System.out.printf("\n%s - %s\n", h.getIdHocVien(), h.getTen()));
+
     }
 
     public boolean updateTTLop(String idLop) {
@@ -286,12 +647,35 @@ public class NhanVienAdminRepository {
         return hv;
     }
 
+    public MonHoc getMHByID(String id) {
+        MonHoc mh = new MonHoc();
+        String query = "Select id,idHocKy,tenMon,hocPhi,thoiLuong,trangThai "
+                + " From MonHoc Where id = ?";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                mh.setId(rs.getString("id"));
+                mh.setIdHocKy(rs.getString("idHocKy"));
+                mh.setTenMon(rs.getString("tenMon"));
+                mh.setHocPhi(rs.getBigDecimal("hocPhi"));
+                mh.setThoiLuong(rs.getInt("thoiLuong"));
+                mh.setTrangThai(rs.getInt("trangThai"));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return mh;
+    }
+
     public List<HocVien> getHocVien1(String idMH) {
         String query = "select hv.id,hv.maHV,hv.ho,hv.tenDem,hv.ten,hv.email,hv.diaChi,\n"
                 + "hv.sdt,hv.ngaySinh,hv.trangThai,hv.matKhau,hv.ngayTao,hv.ngaySua,hv.anh,hv.gioiTinh\n"
                 + "from HocVien hv join DongHocPhi dhp on hv.id = dhp.idHocVien join MonHoc mh on\n"
                 + "dhp.idMonHoc = mh.id\n"
-                + "where mh.id = ? and dhp.trangThai = 1 ";
+                + "where mh.id = ? and dhp.trangThai = 1 and hv.trangThai = 1 ";
         List<HocVien> list = new ArrayList<>();
         try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idMH);
@@ -358,8 +742,175 @@ public class NhanVienAdminRepository {
         return check > 0;
     }
 
+    public boolean deleteLH(String idLH) {
+        int check = 0;
+        String query = "Delete from LichHoc where id = ?";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, idLH);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+
+    public BigDecimal tkTTForHV() {
+        BigDecimal sumMoney = null;
+        String query = "select distinct idhocvien,sum(tienDong) from DongHocPhi";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                sumMoney = rs.getBigDecimal(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return sumMoney;
+    }
+
+    public List<thongKeViewModel1> tKHPHV() {
+        String query = "select distinct idhocvien,sum(tienDong) as 'TongTien' "
+                + "from DongHocPhi group by idHocVien order by TongTien desc";
+        List<thongKeViewModel1> list = new ArrayList<>();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                thongKeViewModel1 tk = new thongKeViewModel1();
+                tk.setIdHocVien(rs.getString("idHocVien"));
+                tk.setTien(rs.getBigDecimal(2));
+                list.add(tk);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return list;
+    }
+
+    public List<thongKeViewModel2> tKHPMH() {
+        String query = "select distinct idMonHoc,sum(tienDong) as 'TongTien' "
+                + "from DongHocPhi group by idMonHoc order by TongTien desc";
+        List<thongKeViewModel2> list = new ArrayList<>();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                thongKeViewModel2 tk = new thongKeViewModel2();
+                tk.setIdMonHoc(rs.getString("idMonHoc"));
+                tk.setTien(rs.getBigDecimal(2));
+                list.add(tk);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return list;
+    }
+
+    public List<NhanVien> listSearchGV(String text) {
+        String query = "Select id,maNV,ho,tenDem,ten,email,diaChi,sdt,ngaySinh,trangThai,"
+                + " matKhau,anh,gioiTinh from NhanVien Where ten like '%" + text + "%'"
+                + " or tenDem like '%" + text + "%'" + " or ho like '%" + text + "%'" + " and idChucVu = 0";
+        List<NhanVien> list = new ArrayList<>();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                NhanVien nv = new NhanVien();
+                nv.setId(rs.getString(1));
+                nv.setMaNV(rs.getString(2));
+                nv.setHo(rs.getString(3));
+                nv.setTenDem(rs.getString(4));
+                nv.setTen(rs.getString(5));
+                nv.setEmail(rs.getString(6));
+                nv.setDiaChi(rs.getString(7));
+                nv.setSdt(rs.getString(8));
+                nv.setNgaySinh(rs.getDate(9));
+                nv.setTrangThai(rs.getInt(10));
+                nv.setMatKhau(rs.getString(11));
+                nv.setImg(rs.getString(12));
+                nv.setGioiTinh(rs.getBoolean(13));
+                list.add(nv);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return list;
+    }
+
+    public List<NhanVien> listPTGV(int pageIndex, int pageNum) {
+        String query = "exec Paging ?,? ";
+        List<NhanVien> list = new ArrayList<>();
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, pageIndex);
+            ps.setObject(2, pageNum);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                NhanVien nv = new NhanVien();
+                nv.setId(rs.getString(1));
+                nv.setMaNV(rs.getString(2));
+                nv.setHo(rs.getString(3));
+                nv.setTenDem(rs.getString(4));
+                nv.setTen(rs.getString(5));
+                nv.setEmail(rs.getString(6));
+                nv.setDiaChi(rs.getString(7));
+                nv.setSdt(rs.getString(8));
+                nv.setNgaySinh(rs.getDate(9));
+                nv.setTrangThai(rs.getInt(10));
+                nv.setMatKhau(rs.getString(11));
+                nv.setImg(rs.getString(12));
+                nv.setGioiTinh(rs.getBoolean(13));
+                list.add(nv);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public int tkSLHV() {
+        List<HocVien> list = new ArrayList<>();
+        String query = "select distinct idHocVien from DongHocPhi group by idHocVien";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HocVien hv = new HocVien();
+                hv.setIdHocVien(rs.getString("idHocVien"));
+                list.add(hv);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list.size();
+    }
+
+    public BigDecimal thongKeTongTien() {
+        BigDecimal sumMoney = null;
+        String query = "select sum(tienDong) from DongHocPhi";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                sumMoney = rs.getBigDecimal(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return sumMoney;
+    }
+
+    public boolean updateTTDHP1(String idHV, String idMonHoc) {
+        int check = 0;
+        String query = "Update DongHocPhi Set trangThai = 1 where idHocVien = ? and idMonHoc = ?";
+        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, idHV);
+            ps.setObject(2, idMonHoc);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+
     public List<LopHocVien> getListLopHV() {
-        String query = "Select idLopHocVien,idLop,idHocVien,trangThai"
+        String query = "Select idLopHocVien,idLop,idHocVien,trangThai,"
                 + " ngayTao,ngaySua from LopHocVien";
         List<LopHocVien> list = new ArrayList<>();
         try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {

@@ -160,6 +160,7 @@ public class FormListHV2 extends javax.swing.JFrame {
             if (admsv.deleteKqht(idHV, lop.getIdMonHoc())) {
                 admsv.deleteLopHV(idHV, idLop);
                 admsv.updateSLHV2(idLop);
+                admsv.updateTTDHP1(idHV, lop.getIdMonHoc());
                 JOptionPane.showMessageDialog(this, "Xoá Học Viên Vào Lớp Thành Công");
                 listHV = admsv.getHocVien1(lop.getIdMonHoc());
                 loadData(listHV);

@@ -154,6 +154,7 @@ public class FormListHV extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Thêm Học Viên Vào Lớp Thành Công");
                 admsv.updateSLHV(idLop);
                 admsv.addKqht(idHV, lop.getIdMonHoc());
+                admsv.updateTTDHP(idHV, lop.getIdMonHoc());
                 listHV = admsv.getHocVien1(lop.getIdMonHoc());
                 loadData(listHV);
             } else {
