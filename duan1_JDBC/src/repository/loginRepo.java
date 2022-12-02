@@ -108,9 +108,10 @@ public class loginRepo {
         }
         return id;
     }
+
     public String getIDNV(String ma) {
         String id = null;
-        String query = "select Id from NhanVien where maNV = ?";
+        String query = "select id from NhanVien where maNV = ?";
         try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, ma);
             ResultSet rs = ps.executeQuery();
@@ -125,17 +126,30 @@ public class loginRepo {
 
     public String getIDHocVien(String maHV) {
         String id = null;
-        String query = "select Id from HocVien where MaHV = ?";
+        String query = "select id from HocVien where MaHV = ?";
         try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, maHV);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                id = rs.getString("id");
+                id = rs.getString(1);
             }
         } catch (SQLException e) {
             e.printStackTrace(System.out);
         }
         return id;
+    }
+
+    public boolean updatePassHocVien(String newPass, String maNV) {
+        int check = 0;
+        String query = "Update HocVien Set matKhau = ? where  maHV = ?";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, newPass);
+            ps.setObject(2, maNV);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
     }
 
     public List<KetQuaHTHV> getKQHT(String maHV) {
@@ -309,7 +323,7 @@ public class loginRepo {
 
     public BigDecimal getSoDuVi(String idHV) {
         String query = "select soDuVi from Vi "
-                + "where idHocVien = ?";
+                + "where idHocVien = ? ";
         BigDecimal soDuVi = null;
         try (Connection conn = DBContext.getConnection();
                 PreparedStatement ps = conn.prepareStatement(query)) {
@@ -546,9 +560,40 @@ public class loginRepo {
         return check > 0;
     }
 
+    public HocVien getOneHV(String maHV) {
+        HocVien nv = new HocVien();
+        String query = "select id,ten,tenDem,ho,email,diaChi,sdt,ngaySinh,trangThai"
+                + ",matKhau,ngayTao,ngaySua "
+                + "from HocVien where maHV = ?";
+        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, maHV);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                nv.setIdHocVien(rs.getString("id"));
+                nv.setMaHV(maHV);
+                nv.setTen(rs.getString("ten"));
+                nv.setTenDem(rs.getString("tenDem"));
+                nv.setHo(rs.getString("ho"));
+                nv.setEmail(rs.getString("email"));
+                nv.setDiaChi(rs.getString("diaChi"));
+                nv.setSdt(rs.getString("sdt"));
+                nv.setNgaySinh(rs.getDate("ngaySinh"));
+                nv.setTrangThai(rs.getInt("trangThai"));
+                nv.setMatKhau(rs.getString("matKhau"));
+                nv.setNgayTao(rs.getDate("ngayTao"));
+                nv.setNgaySua(rs.getDate("ngaySua"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return nv;
+    }
+
     public static void main(String[] args) {
-        String maNV = "nv005";
-        String id = new loginRepo().getOne(maNV);
+        String mahV = "mahv001";
+        String id = new loginRepo().getIDHocVien(mahV);
         System.out.println(id);
+        List<DongHocPhi> list = new loginRepo().listDongPhi(id);
+        list.forEach(l-> System.out.printf("%f \n",l.getTienDong()));
     }
 }
