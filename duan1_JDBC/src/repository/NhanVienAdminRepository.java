@@ -4,7 +4,7 @@
  */
 package repository;
 
-import Utilities.SQLConnection;
+
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +22,7 @@ import model.Lop;
 import model.LopHocVien;
 import model.MonHoc;
 import model.NhanVien;
+import utilities.DBContext;
 import viewmodel.thongKeViewModel1;
 import viewmodel.thongKeViewModel2;
 
@@ -34,7 +35,7 @@ public class NhanVienAdminRepository {
     public boolean updatePassAdmin(String newPass, String maNV) {
         int check = 0;
         String query = "Update NhanVien Set matKhau = ? where idChucVu = 1 and maNV = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, newPass);
             ps.setObject(2, maNV);
             check = ps.executeUpdate();
@@ -47,7 +48,7 @@ public class NhanVienAdminRepository {
     public boolean updateTTHV(String idHV) {
         int check = 0;
         String query = "Update HocVien Set trangThai = 1 where id = ? ";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idHV);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -60,7 +61,7 @@ public class NhanVienAdminRepository {
         List<MonHoc> list = new ArrayList<>();
         String query = "select id,idHocKy,tenMon,hocPhi,thoiLuong from MonHoc where tenMon like N'%"
                 + text + "%'";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn =DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 MonHoc mh = new MonHoc();
@@ -80,7 +81,7 @@ public class NhanVienAdminRepository {
     public List<DongHocPhi> getListPTDHP(int pageIndex, int pageNumber) {
         List<DongHocPhi> list = new ArrayList<>();
         String query = "Exec Paging3 ?,? ";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, pageIndex);
             ps.setObject(2, pageNumber);
             ResultSet rs = ps.executeQuery();
@@ -102,7 +103,7 @@ public class NhanVienAdminRepository {
     public List<DongHocPhi> getListDHP() {
         List<DongHocPhi> list = new ArrayList<>();
         String query = "select idDongHP,idHocVien,idMonHoc,ngayDong,tienDong,trangThai from DongHocPhi";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 DongHocPhi dhp = new DongHocPhi();
@@ -133,7 +134,7 @@ public class NhanVienAdminRepository {
                 + "           ,[ngayTao])\n"
                 + "     VALUES\n"
                 + "           (?,?,?,?,?,?)";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, dhp.getIdHocVien());
             ps.setObject(2, dhp.getIdMonHoc());
             ps.setObject(3, date);
@@ -150,7 +151,7 @@ public class NhanVienAdminRepository {
     public List<HocVien> listPTHocVien(int pageIndex, int pageNumber) {
         String query = "Exec Paging1 ?,? ";
         List<HocVien> listHV = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, pageIndex);
             ps.setObject(2, pageNumber);
             ResultSet rs = ps.executeQuery();
@@ -180,7 +181,7 @@ public class NhanVienAdminRepository {
     public List<MonHoc> listPTMonHoc(int pageIndex, int pageNumber) {
         String query = "Exec Paging2 ?,? ";
         List<MonHoc> listMH = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, pageIndex);
             ps.setObject(2, pageNumber);
             ResultSet rs = ps.executeQuery();
@@ -203,7 +204,7 @@ public class NhanVienAdminRepository {
         String Query = "SELECT id, maHV, ho, tenDem, ten, email, diaChi, sdt, ngaySinh, trangThai, matKhau, ngayTao, ngaySua\n"
                 + " ,anh,gioiTinh FROM  HocVien ";
         List<HocVien> listHV = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement pr = conn.prepareStatement(Query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement pr = conn.prepareStatement(Query)) {
             ResultSet rs = pr.executeQuery();
             while (rs.next()) {
                 HocVien hv = new HocVien();
@@ -233,7 +234,7 @@ public class NhanVienAdminRepository {
         int check = 0;
         String query = "Update DongHocPhi Set trangThai = 2 where idHocVien = ? \n"
                 + " and idMonHoc = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idHocVien);
             ps.setObject(2, idMH);
             check = ps.executeUpdate();
@@ -255,7 +256,7 @@ public class NhanVienAdminRepository {
                 + "           ,[trangThai])\n"
                 + "     VALUES\n"
                 + "           (?,?,?,?,?)";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idHV);
             ps.setObject(2, 0);
             ps.setObject(3, date);
@@ -271,7 +272,7 @@ public class NhanVienAdminRepository {
     public boolean deleteLichHoc(LichHoc lh) {
         int check = 0;
         String query = "Delete From LichHoc Where id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, lh.getId());
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -285,7 +286,7 @@ public class NhanVienAdminRepository {
         String query = "select id,ten,tenDem,ho,email,diaChi,sdt,ngaySinh,trangThai"
                 + ",anh,gioiTinh,matKhau,idChucVu,ngayTao,ngaySua "
                 + "from NhanVien where maNV = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, maNV);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -315,7 +316,7 @@ public class NhanVienAdminRepository {
     public boolean deleteKqht(String idHV, String idMonHoc) {
         int check = 0;
         String query = "Delete from KetQuaHT where idHocVien = ? and idMonHoc = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idHV);
             ps.setObject(2, idMonHoc);
             check = ps.executeUpdate();
@@ -329,7 +330,7 @@ public class NhanVienAdminRepository {
         String query = "Select id,idLop,ngayHoc,trangThai,ngayTao,ngaySua from LichHoc where idLop = ? \n"
                 + " ORDER by day(ngayHoc),MONTH(ngayHoc) ,YEAR(ngayHoc) asc";
         List<LichHoc> list = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -352,7 +353,7 @@ public class NhanVienAdminRepository {
         boolean check = true;
         String query = "Select id,idLop,ngayHoc from LichHoc Where id = ? and idLop = ? "
                 + " and ngayHoc = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, lh.getId());
             ps.setObject(2, lh.getIdLop());
             ps.setObject(3, lh.getNgayHoc());
@@ -366,7 +367,7 @@ public class NhanVienAdminRepository {
     public boolean updateLichHoc(LichHoc lh) {
         int check = 0;
         String query = "Update LichHoc Set ngayHoc = ? where id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, lh.getNgayHoc());
             ps.setObject(2, lh.getId());
             check = ps.executeUpdate();
@@ -387,7 +388,7 @@ public class NhanVienAdminRepository {
                 + "           ,[ngaySua])\n"
                 + "     VALUES\n"
                 + "           (?,?,?,?,?)";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, lh.getIdLop());
             ps.setObject(2, lh.getNgayHoc());
             ps.setObject(3, 0);
@@ -405,7 +406,7 @@ public class NhanVienAdminRepository {
                 + "from LichHoc lh join Lop l on lh.idLop = l.id join MonHoc mh on l.idMonHoc = mh.id\n"
                 + "where l.id = ?";
         MonHoc mh = new MonHoc();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -427,7 +428,7 @@ public class NhanVienAdminRepository {
                 + " lh join Lop l on lh.idLop = l.id join CaHoc ch on l.idCa = ch.id \n"
                 + " where l.id = ?";
         CaHoc ch = new CaHoc();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -447,7 +448,7 @@ public class NhanVienAdminRepository {
                 + " ,nv.ngaySinh,nv.trangThai,nv.matKhau,nv.gioiTinh from NhanVien"
                 + " nv join Lop l on nv.id = l.idGiangVien where l.id = ?";
         NhanVien nv = new NhanVien();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -473,7 +474,7 @@ public class NhanVienAdminRepository {
     public boolean deleteLopHV(String idHV, String idLop) {
         int check = 0;
         String query = "Delete from LopHocVien where idHocVien = ? and idLop = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idHV);
             ps.setObject(2, idLop);
             check = ps.executeUpdate();
@@ -489,7 +490,7 @@ public class NhanVienAdminRepository {
         int check = 0;
         String query = "insert into KetQuaHT (idHocVien,IdMonHoc,trangThai,ngayTao,ngaySua) "
                 + "values (?,?,?,?,?) ";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idHV);
             ps.setObject(2, idMonHoc);
             ps.setObject(3, 0);
@@ -505,7 +506,7 @@ public class NhanVienAdminRepository {
     public boolean xoaPhanQuyen(String idLop) {
         int check = 0;
         String query = "Update Lop Set idGiangVien = null where id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -526,7 +527,7 @@ public class NhanVienAdminRepository {
                 + "      ,[trangThai] = ?\n"
                 + "      ,[ngaySua] = ?\n"
                 + " WHERE id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, l.getMalop());
             ps.setObject(2, l.getTenLop());
             ps.setObject(3, l.getIdCa());
@@ -544,7 +545,7 @@ public class NhanVienAdminRepository {
     public boolean deleteLop(String idLop) {
         int check = 0;
         String query = "delete Lop Where id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -556,7 +557,7 @@ public class NhanVienAdminRepository {
     public boolean deleteLopHV(String idLop) {
         int check = 0;
         String query = "delete LopHocVien Where idLop = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -571,7 +572,7 @@ public class NhanVienAdminRepository {
                 + " from Lop l join LopHocVien lhv on l.id = lhv.idLop join HocVien hv on lhv.idHocVien = hv.id\n"
                 + " where l.id = ? ";
         List<HocVien> list = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -606,7 +607,7 @@ public class NhanVienAdminRepository {
     public boolean updateTTLop(String idLop) {
         int check = 0;
         String query = "Update Lop Set trangThai = 1 where id = ? ";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -620,7 +621,7 @@ public class NhanVienAdminRepository {
                 + " ,ngaySinh,trangThai,matKhau,ngayTao,ngaySua,anh,gioiTinh"
                 + " from HocVien where id = ?";
         HocVien hv = new HocVien();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -651,7 +652,7 @@ public class NhanVienAdminRepository {
         MonHoc mh = new MonHoc();
         String query = "Select id,idHocKy,tenMon,hocPhi,thoiLuong,trangThai "
                 + " From MonHoc Where id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -677,7 +678,7 @@ public class NhanVienAdminRepository {
                 + "dhp.idMonHoc = mh.id\n"
                 + "where mh.id = ? and dhp.trangThai = 1 and hv.trangThai = 1 ";
         List<HocVien> list = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idMH);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -717,7 +718,7 @@ public class NhanVienAdminRepository {
                 + "           ,[ngaySua])\n"
                 + "     VALUES\n"
                 + "           (?,?,?,?,?)";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, lv.getIdLop());
             ps.setObject(2, lv.getIdHocVien());
             ps.setObject(3, 0);
@@ -733,7 +734,7 @@ public class NhanVienAdminRepository {
     public boolean updateHV(String id) {
         int check = 0;
         String query = "Update HocVien Set trangThai = 2 where id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, id);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -745,7 +746,7 @@ public class NhanVienAdminRepository {
     public boolean deleteLH(String idLH) {
         int check = 0;
         String query = "Delete from LichHoc where id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLH);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -757,7 +758,7 @@ public class NhanVienAdminRepository {
     public BigDecimal tkTTForHV() {
         BigDecimal sumMoney = null;
         String query = "select distinct idhocvien,sum(tienDong) from DongHocPhi";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 sumMoney = rs.getBigDecimal(1);
@@ -773,7 +774,7 @@ public class NhanVienAdminRepository {
         String query = "select distinct idhocvien,sum(tienDong) as 'TongTien' "
                 + "from DongHocPhi group by idHocVien order by TongTien desc";
         List<thongKeViewModel1> list = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 thongKeViewModel1 tk = new thongKeViewModel1();
@@ -791,7 +792,7 @@ public class NhanVienAdminRepository {
         String query = "select distinct idMonHoc,sum(tienDong) as 'TongTien' "
                 + "from DongHocPhi group by idMonHoc order by TongTien desc";
         List<thongKeViewModel2> list = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 thongKeViewModel2 tk = new thongKeViewModel2();
@@ -810,7 +811,7 @@ public class NhanVienAdminRepository {
                 + " matKhau,anh,gioiTinh from NhanVien Where ten like '%" + text + "%'"
                 + " or tenDem like '%" + text + "%'" + " or ho like '%" + text + "%'" + " and idChucVu = 0";
         List<NhanVien> list = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 NhanVien nv = new NhanVien();
@@ -838,7 +839,7 @@ public class NhanVienAdminRepository {
     public List<NhanVien> listPTGV(int pageIndex, int pageNum) {
         String query = "exec Paging ?,? ";
         List<NhanVien> list = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, pageIndex);
             ps.setObject(2, pageNum);
             ResultSet rs = ps.executeQuery();
@@ -868,7 +869,7 @@ public class NhanVienAdminRepository {
     public int tkSLHV() {
         List<HocVien> list = new ArrayList<>();
         String query = "select distinct idHocVien from DongHocPhi group by idHocVien";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HocVien hv = new HocVien();
@@ -884,7 +885,7 @@ public class NhanVienAdminRepository {
     public BigDecimal thongKeTongTien() {
         BigDecimal sumMoney = null;
         String query = "select sum(tienDong) from DongHocPhi";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 sumMoney = rs.getBigDecimal(1);
@@ -899,7 +900,7 @@ public class NhanVienAdminRepository {
     public boolean updateTTDHP1(String idHV, String idMonHoc) {
         int check = 0;
         String query = "Update DongHocPhi Set trangThai = 1 where idHocVien = ? and idMonHoc = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idHV);
             ps.setObject(2, idMonHoc);
             check = ps.executeUpdate();
@@ -913,7 +914,7 @@ public class NhanVienAdminRepository {
         String query = "Select idLopHocVien,idLop,idHocVien,trangThai,"
                 + " ngayTao,ngaySua from LopHocVien";
         List<LopHocVien> list = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 LopHocVien lhv = new LopHocVien();
@@ -934,7 +935,7 @@ public class NhanVienAdminRepository {
     public boolean updateSLHV(String idLop) {
         int check = 0;
         String query = "Update Lop Set slHocVien = slHocVien + 1 where id = ? ";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -946,7 +947,7 @@ public class NhanVienAdminRepository {
     public boolean updateSLHV2(String idLop) {
         int check = 0;
         String query = "Update Lop Set slHocVien = slHocVien - 1 where id = ? ";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -960,7 +961,7 @@ public class NhanVienAdminRepository {
         String query = "select id,ten,tenDem,ho,email,diaChi,sdt,ngaySinh,trangThai"
                 + ",anh,gioiTinh,matKhau,idChucVu,ngayTao,ngaySua "
                 + "from NhanVien where maNV = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, maNV);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -990,7 +991,7 @@ public class NhanVienAdminRepository {
     public boolean phanQuyenGV(Lop l, String idGV) {
         int check = 0;
         String query = "Update Lop Set idGiangVien = ? where id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idGV);
             ps.setObject(2, l.getId());
             check = ps.executeUpdate();
@@ -1005,7 +1006,7 @@ public class NhanVienAdminRepository {
                 + "anh,gioiTinh,trangThai,matKhau,idChucVu,ngayTao,ngaySua "
                 + "from NhanVien Where idChucVu = 0";
         List<NhanVien> listGV = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 NhanVien nv = new NhanVien();
@@ -1055,7 +1056,7 @@ public class NhanVienAdminRepository {
                 + "           ,[ngaySua])\n"
                 + "     VALUES\n"
                 + "           (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, nv.getMaNV());
             ps.setObject(2, nv.getHo());
             ps.setObject(3, nv.getTenDem());
@@ -1097,7 +1098,7 @@ public class NhanVienAdminRepository {
                 + "      ,[anh] = ?\n"
                 + "      ,[gioiTinh] = ?\n"
                 + " WHERE maNV = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, nv.getMaNV());
             ps.setObject(2, nv.getHo());
             ps.setObject(3, nv.getTenDem());
@@ -1122,7 +1123,7 @@ public class NhanVienAdminRepository {
     public boolean deleteGV(String maGV) {
         int check = 0;
         String query = "Delete NhanVien Where maNV = ? and idChucVu = 0";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, maGV);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -1136,7 +1137,7 @@ public class NhanVienAdminRepository {
                 + "anh,gioiTinh,trangThai,matKhau,idChucVu,ngayTao,ngaySua "
                 + "from NhanVien";
         List<NhanVien> listNV = new ArrayList<>();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 NhanVien nv = new NhanVien();
@@ -1168,7 +1169,7 @@ public class NhanVienAdminRepository {
         List<Lop> listL = new ArrayList<>();
         String query = "select id,idGiangVien,maLop,tenLop,slHocVien,slToiDa,"
                 + "idCa,idMonHoc,trangThai,ngayTao,ngaySua from Lop";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Lop l = new Lop();
@@ -1195,7 +1196,7 @@ public class NhanVienAdminRepository {
     public List<CaHoc> getListCaHoc() {
         List<CaHoc> listCaHoc = new ArrayList<>();
         String query = "select id,maCa,thoiGian,trangThai,ngayTao,ngaySua from Cahoc";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 CaHoc ch = new CaHoc();
@@ -1213,10 +1214,10 @@ public class NhanVienAdminRepository {
         return listCaHoc;
     }
 
-    public List<MonHoc> getListMonHoc() {
+    public List<MonHoc> getAllMonHoc() {
         List<MonHoc> listMonHoc = new ArrayList<>();
         String query = "select id,idHocKy,tenMon,hocPhi,thoiLuong,trangThai,ngayTao,ngaySua from MonHoc";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 MonHoc mh = new MonHoc();
@@ -1241,7 +1242,7 @@ public class NhanVienAdminRepository {
                 + "from lop l join MonHoc mh on l.idMonHoc = mh.id join HocKy hk on mh.idHocKy = hk.idHocKy\n"
                 + "where l.id = ? ";
         HocKy hk = new HocKy();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idLop);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -1263,7 +1264,7 @@ public class NhanVienAdminRepository {
         List<HocKy> listK = new ArrayList<>();
         String query = "select idHocKy,hocKy,moTa,thoiLuong,trangThai,"
                 + "ngayTao,ngaySua from HocKy";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HocKy h = new HocKy();
@@ -1286,7 +1287,7 @@ public class NhanVienAdminRepository {
         String query = "select idHocKy,hocKy,moTa,thoiLuong,trangThai,"
                 + "ngayTao,ngaySua from HocKy where idHocKy = ?";
         HocKy h = new HocKy();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -1307,7 +1308,7 @@ public class NhanVienAdminRepository {
     public String getIdHocKi(int hocki) {
         String id = null;
         String query = "select idHocKy from HocKy Where hocKy = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, hocki);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -1331,7 +1332,7 @@ public class NhanVienAdminRepository {
                 //              + "           ,[trangThai]\n"
                 + "      ,[ngaySua] = ?\n"
                 + " WHERE id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, mh.getIdHocKy());
             ps.setObject(2, mh.getTenMon());
             ps.setObject(3, mh.getHocPhi());
@@ -1359,7 +1360,7 @@ public class NhanVienAdminRepository {
                 + "           ,[ngaySua])\n"
                 + "     VALUES\n"
                 + "           (?,?,?,?,?,?)";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, mh.getIdHocKy());
             ps.setObject(2, mh.getTenMon());
             ps.setObject(3, mh.getHocPhi());
@@ -1376,7 +1377,7 @@ public class NhanVienAdminRepository {
     public boolean deleteMonHoc(String idMonHoc) {
         int check = 0;
         String query = "Delete From MonHoc Where id = ?";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, idMonHoc);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -1401,7 +1402,7 @@ public class NhanVienAdminRepository {
                 + "           ,[ngaySua])\n"
                 + "     VALUES\n"
                 + "           (?,?,?,?,?,?,?,?,?)";
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, lop.getMalop());
             ps.setObject(2, lop.getTenLop());
             ps.setObject(3, 0);
@@ -1421,7 +1422,7 @@ public class NhanVienAdminRepository {
     public MonHoc getMonHoc(String id) {
         String query = "select idHocKy,tenMon,hocPhi,thoiLuong from MonHoc Where id = ?";
         MonHoc mh = new MonHoc();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -1440,7 +1441,7 @@ public class NhanVienAdminRepository {
     public String getTenGV(String id) {
         String query = "select ho,tenDem,ten from NhanVien Where id = ?";
         String tenGV = null;
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -1455,7 +1456,7 @@ public class NhanVienAdminRepository {
     public CaHoc getCaHoc(String id) {
         String query = "select maCa,thoiGian from CaHoc where id = ?";
         CaHoc ch = new CaHoc();
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -1472,7 +1473,7 @@ public class NhanVienAdminRepository {
     public String getIdByMaCa(String maCa) {
         String query = "select id from CaHoc where maCa = ?";
         String id = null;
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, maCa);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -1487,7 +1488,7 @@ public class NhanVienAdminRepository {
     public String getIdByTenMon(String tenMon) {
         String query = "select id from MonHoc where tenMon = ?";
         String id = null;
-        try ( Connection conn = SQLConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( Connection conn = DBContext.getConnection();  PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, tenMon);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

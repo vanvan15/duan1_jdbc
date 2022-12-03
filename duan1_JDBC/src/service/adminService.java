@@ -42,7 +42,7 @@ public interface adminService {
 
     List<CaHoc> getListCaHoc();
 
-    List<MonHoc> getListMonHoc();
+    List<MonHoc> getAllMonHoc();
 
     List<HocKy> getListHocKy();
 

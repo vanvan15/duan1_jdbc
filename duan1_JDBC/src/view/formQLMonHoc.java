@@ -39,10 +39,10 @@ public class formQLMonHoc extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         listHocKy = admsv.getListHocKy();
-        listAllMH = admsv.getListMonHoc();
+        listAllMH = admsv.getAllMonHoc();
         listMH = admsv.listPTMonHoc(pageIndex, pageNumber);
         loadCBB(listHocKy);
-        loadMonHoc(listMH);
+        ShowDataMonHoc(listMH);
 
     }
 
@@ -57,7 +57,7 @@ public class formQLMonHoc extends javax.swing.JFrame {
         cbbModel.setSelectedItem("Kỳ 1");
     }
 
-    public void loadMonHoc(List<MonHoc> list) {
+    public void ShowDataMonHoc(List<MonHoc> list) {
         tbMonHoc.setModel(tbModel);
         tbModel.setRowCount(0);
         String title[] = {"Tên Môn", "Học Kì", "Học Phí", "Thời Lượng"};
@@ -332,15 +332,15 @@ public class formQLMonHoc extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 22, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -377,8 +377,8 @@ public class formQLMonHoc extends javax.swing.JFrame {
         if (validateFormUpdate(tl, hp, tenMon)) {
             if (admsv.addMonHoc(mh)) {
                 JOptionPane.showMessageDialog(this, "Thêm Thành Công!");
-                listMH = admsv.getListMonHoc();
-                loadMonHoc(listMH);
+                listMH = admsv.getAllMonHoc();
+               ShowDataMonHoc(listMH);
             } else {
                 JOptionPane.showMessageDialog(this, "Thêm Thất Bại!");
             }
@@ -391,10 +391,10 @@ public class formQLMonHoc extends javax.swing.JFrame {
         MonHoc mh = listMH.get(row);
         if (admsv.deleteMonHoc(mh.getId())) {
             JOptionPane.showMessageDialog(this, "Xoá Môn Học Thành Công!");
-            listMH = admsv.getListMonHoc();
-            loadMonHoc(listMH);
+            listMH = admsv.getAllMonHoc();
+            ShowDataMonHoc(listMH);
         } else {
-            JOptionPane.showMessageDialog(this, "Lỗi Gì Chư Biết ? Đợi Lát Fix !");
+            JOptionPane.showMessageDialog(this, "Môn Học không được xóa!");
         }
     }//GEN-LAST:event_jButton10ActionPerformed
 
@@ -438,8 +438,8 @@ public class formQLMonHoc extends javax.swing.JFrame {
         if (validateFormUpdate(tl, hp, tenMon)) {
             if (admsv.updateMonHoc(id, mh)) {
                 JOptionPane.showMessageDialog(this, "Sửa Thành Công!");
-                listMH = admsv.getListMonHoc();
-                loadMonHoc(listMH);
+                listMH = admsv.getAllMonHoc();
+                ShowDataMonHoc(listMH);
             } else {
                 JOptionPane.showMessageDialog(this, "Sửa Thất Bại!");
             }
@@ -461,13 +461,13 @@ public class formQLMonHoc extends javax.swing.JFrame {
                 listMH = admsv.listPTMonHoc(pageIndex, pageNumber);
                 int maxPage = listAllMH.size() / 5 + 1;
                 jLabel4.setText(pageIndex + "/" + maxPage);
-                loadMonHoc(listMH);
+                ShowDataMonHoc(listMH);
             } else {
                 pageIndex += 1;
                 listMH = admsv.listPTMonHoc(pageIndex, pageNumber);
                 int maxPage = listAllMH.size() / 5 + 1;
                 jLabel4.setText(pageIndex + "/" + maxPage);
-                loadMonHoc(listMH);
+                ShowDataMonHoc(listMH);
             }
         } else {
             if (pageIndex >= listAllMH.size() / 5) {
@@ -475,13 +475,13 @@ public class formQLMonHoc extends javax.swing.JFrame {
                 listMH = admsv.listPTMonHoc(pageIndex, pageNumber);
                 int maxPage = listAllMH.size() / 5;
                 jLabel4.setText(pageIndex + "/" + maxPage);
-                loadMonHoc(listMH);
+                ShowDataMonHoc(listMH);
             } else {
                 pageIndex += 1;
                 listMH = admsv.listPTMonHoc(pageIndex, pageNumber);
                 int maxPage = listAllMH.size() / 5;
                 jLabel4.setText(pageIndex + "/" + maxPage);
-                loadMonHoc(listMH);
+                ShowDataMonHoc(listMH);
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -494,13 +494,13 @@ public class formQLMonHoc extends javax.swing.JFrame {
                 listMH = admsv.listPTMonHoc(pageIndex, pageNumber);
                 int maxPage = listAllMH.size() / 5 + 1;
                 jLabel4.setText(pageIndex + "/" + maxPage);
-                loadMonHoc(listMH);
+                ShowDataMonHoc(listMH);
             } else {
                 pageIndex -= 1;
                 listMH = admsv.listPTMonHoc(pageIndex, pageNumber);
                 int maxPage = listAllMH.size() / 5 + 1;
                 jLabel4.setText(pageIndex + "/" + maxPage);
-                loadMonHoc(listMH);
+                ShowDataMonHoc(listMH);
             }
         } else {
             if (pageIndex <= 1) {
@@ -508,13 +508,13 @@ public class formQLMonHoc extends javax.swing.JFrame {
                 listMH = admsv.listPTMonHoc(pageIndex, pageNumber);
                 int maxPage = listAllMH.size() / 5;
                 jLabel4.setText(pageIndex + "/" + maxPage);
-                loadMonHoc(listMH);
+               ShowDataMonHoc(listMH);
             } else {
                 pageIndex -= 1;
                 listMH = admsv.listPTMonHoc(pageIndex, pageNumber);
                 int maxPage = listAllMH.size() / 5;
                 jLabel4.setText(pageIndex + "/" + maxPage);
-                loadMonHoc(listMH);
+                ShowDataMonHoc(listMH);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
