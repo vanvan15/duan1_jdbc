@@ -4,14 +4,55 @@
  */
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import service.impl.qlDiemImpl;
+import service.qlDiemService;
+import viewmodel.qlDiem;
+
 /**
  *
  * @author Dell
  */
 public class formDiemTungLop extends javax.swing.JFrame {
 
+    private DefaultTableModel dtm = new DefaultTableModel();
+    private List<qlDiem> ListD = new ArrayList<>();
+    private qlDiemService qldi = new qlDiemImpl();
+    private String ma;
+
     public formDiemTungLop() {
         initComponents();
+    }
+
+    public formDiemTungLop(String maGV) {
+        initComponents();
+        setLocationRelativeTo(null);
+        ma = maGV;
+        tbBangDienLop.setModel(dtm);
+        String[] header = {"Mã HV", "Họ Tên HV", "Điểm GK", "Điểm TK", "Đánh Giá", "Trạng Thái"};
+        dtm.setColumnIdentifiers(header);
+        loadDaTa();
+
+    }
+
+    private void loadDaTa() {
+        String idGV = qldi.getidGV(ma);
+        String idLOp = qldi.getIDLop(idGV);
+        ListD = qldi.getDSHV(idGV, idLOp);
+        showDaTa(ListD);
+    }
+
+    private void showDaTa(List<qlDiem> list) {
+        dtm.setRowCount(0);
+        for (qlDiem d : list) {
+            dtm.addRow(new Object[]{d.getMaHV(),
+                d.getHoHV() + " " + d.getTenDemHV() + " " + d.getTenHV(),
+                d.getDiemGiuaKy(), d.getDiemTongKet(), d.getDanhGia(),
+                d.getTrangThai()});
+        }
     }
 
     /**
@@ -24,22 +65,27 @@ public class formDiemTungLop extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        btnSua = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbBangDienLop = new javax.swing.JTable();
-        btnSerach = new javax.swing.JButton();
-        btnDanhGia = new javax.swing.JTextField();
-        btnMaHV = new javax.swing.JTextField();
+        txtDanhGia = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        btnExit = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        txtDiemGK = new javax.swing.JTextField();
+        txtDiemCK = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        btnUpDate = new javax.swing.JButton();
+        lbHV = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Bảng Điểm");
-
-        btnSua.setText("Sửa");
 
         tbBangDienLop.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -52,83 +98,130 @@ public class formDiemTungLop extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbBangDienLop.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbBangDienLopMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbBangDienLop);
-
-        btnSerach.setText("Search");
 
         jLabel3.setText("Đánh Giá");
 
-        jLabel2.setText("Mã HV");
+        jLabel4.setText("Điểm giữa kỳ");
 
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
+        jLabel5.setText("Điểm cuối kỳ");
+
+        btnUpDate.setText("UpDate");
+        btnUpDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
+                btnUpDateActionPerformed(evt);
             }
         });
+
+        lbHV.setText("---------------");
+
+        jLabel6.setText("Mã HV");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(225, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(225, 225, 225))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnMaHV)
-                            .addComponent(btnDanhGia, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
-                        .addGap(45, 45, 45)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbHV, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(btnSua, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnSerach, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(txtDiemCK)
+                                    .addComponent(txtDanhGia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                                    .addComponent(txtDiemGK, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnExit)
-                                .addGap(10, 10, 10))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(btnUpDate)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(lbHV))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(txtDiemGK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(btnMaHV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSerach))
-                        .addGap(21, 21, 21))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnExit)
-                        .addGap(9, 9, 9)))
+                    .addComponent(jLabel5)
+                    .addComponent(txtDiemCK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnDanhGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSua)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtDanhGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnUpDate)))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        formQLDiem login = new formQLDiem();
-        login.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnExitActionPerformed
+    private void btnUpDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpDateActionPerformed
+
+        String id = qldi.getidHV(lbHV.getText());
+        float diemGK = Float.valueOf(txtDiemGK.getText());
+        float diemTK = Float.valueOf(txtDiemCK.getText());
+        String danhGia = txtDanhGia.getText();
+        int trangThai;
+        if (diemGK>= 5 && diemTK>= 5) {
+            trangThai = 1;
+        } else {
+            trangThai = 2;
+        }
+        System.out.println(diemGK);
+        System.out.println(diemTK);
+        if (diemGK < 0 && diemGK > 10 && diemTK < 0 && diemTK > 10) {
+            JOptionPane.showMessageDialog(rootPane, "Điểm Không thể <0 và >10");
+        } else {
+            qlDiem kq = new qlDiem(diemGK, diemTK, danhGia, trangThai);
+            ListD.add(kq);
+            JOptionPane.showMessageDialog(this, qldi.diemHV(kq, id));
+            loadDaTa();
+        }
+    }//GEN-LAST:event_btnUpDateActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+
+    }//GEN-LAST:event_formMouseClicked
+
+    private void tbBangDienLopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbBangDienLopMouseClicked
+        int row = tbBangDienLop.getSelectedRow();
+        qlDiem kq = ListD.get(row);
+        txtDanhGia.setText(kq.getDanhGia());
+        txtDiemCK.setText(kq.getDiemTongKet() + " ");
+        txtDiemGK.setText(kq.getDiemGiuaKy() + " ");
+        lbHV.setText(kq.getMaHV());
+
+    }//GEN-LAST:event_tbBangDienLopMouseClicked
 
     /**
      * @param args the command line arguments
@@ -144,17 +237,26 @@ public class formDiemTungLop extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(formDiemTungLop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formDiemTungLop.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(formDiemTungLop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formDiemTungLop.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(formDiemTungLop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formDiemTungLop.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(formDiemTungLop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(formDiemTungLop.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -166,15 +268,17 @@ public class formDiemTungLop extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField btnDanhGia;
-    private javax.swing.JButton btnExit;
-    private javax.swing.JTextField btnMaHV;
-    private javax.swing.JButton btnSerach;
-    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnUpDate;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbHV;
     private javax.swing.JTable tbBangDienLop;
+    private javax.swing.JTextField txtDanhGia;
+    private javax.swing.JTextField txtDiemCK;
+    private javax.swing.JTextField txtDiemGK;
     // End of variables declaration//GEN-END:variables
 }

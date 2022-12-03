@@ -4,17 +4,47 @@
  */
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import service.impl.qlLopImpl;
+import viewmodel.QLLopGV;
+
 /**
  *
  * @author Dell
  */
 public class formQLDiem extends javax.swing.JFrame {
 
+    private DefaultTableModel dtm = new DefaultTableModel();
+    private List<QLLopGV> ListL = new ArrayList<>();
+    private qlLopImpl li = new qlLopImpl();
+    private String ma;
+
     /**
      * Creates new form fromQLDiem
      */
     public formQLDiem() {
         initComponents();
+    }
+
+    public formQLDiem(String maGV) {
+        initComponents();
+        setLocationRelativeTo(null);
+        ma = maGV;
+        tbDiem.setModel(dtm);
+        String[] header = {"Tên Môn", "Mã Lớp", "Sô lượng HV", "Số lượng TD"};
+        dtm.setColumnIdentifiers(header);
+        ListL = li.getAll(ma);
+        showData(ListL);
+    }
+
+    public void showData(List<QLLopGV> listS) {
+        dtm.setRowCount(0);
+        for (QLLopGV lgv : listS) {
+            dtm.addRow(new Object[]{lgv.getTenMon(), lgv.getMaLop(),
+                lgv.getSlHocVien(), lgv.getSlToiDa()});
+        }
     }
 
     /**
@@ -42,13 +72,18 @@ public class formQLDiem extends javax.swing.JFrame {
 
         jLabel7.setText("Mã Lớp");
 
-        txtMaLop.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMaLopActionPerformed(evt);
+        txtMaLop.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMaLopKeyReleased(evt);
             }
         });
 
         btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         tbDiem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -90,7 +125,7 @@ public class formQLDiem extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 672, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(62, 62, 62)
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,35 +152,40 @@ public class formQLDiem extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 966, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtMaLopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaLopActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaLopActionPerformed
-
     private void tbDiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDiemMouseClicked
-        formDiemTungLop login = new formDiemTungLop();
+        formDiemTungLop login = new formDiemTungLop(ma);
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_tbDiemMouseClicked
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        String Search = txtMaLop.getText();
+        List<QLLopGV> ListSearch = li.getOne(Search, ma);
+        showData(ListSearch);
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtMaLopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaLopKeyReleased
+        // TODO add your handling code here:
+        String Search = txtMaLop.getText();
+        List<QLLopGV> ListSearch = li.getOne(Search, ma);
+        showData(ListSearch);
+
+    }//GEN-LAST:event_txtMaLopKeyReleased
 
     /**
      * @param args the command line arguments
@@ -172,6 +212,8 @@ public class formQLDiem extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(formQLDiem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
