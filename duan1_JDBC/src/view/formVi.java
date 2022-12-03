@@ -4,6 +4,10 @@
  */
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.DongHocPhi;
 import model.Vi;
 import service.impl.viImpl;
 
@@ -13,7 +17,9 @@ import service.impl.viImpl;
  */
 public class formVi extends javax.swing.JFrame {
 
+    private DefaultTableModel dtm = new DefaultTableModel();
     private viImpl vil = new viImpl();
+    private List<DongHocPhi> ListDHP = new ArrayList<>();
     private String ma;
 
     /**
@@ -27,12 +33,27 @@ public class formVi extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         ma = maHV;
+        tbGD.setModel(dtm);
+        String[] hearder = {"Ngày đóng", "Số tiền", "Trạng thái"};
+        dtm.setColumnIdentifiers(hearder);
+        String idHV = vil.getIDHocVien(ma);
+        ListDHP = vil.getDSHP(idHV);
+        Data();
+        showData(ListDHP);
         Data();
     }
+
     private void Data() {
-       String id = vil.getIDHocVien(ma);
+        String id = vil.getIDHocVien(ma);
         Vi v = vil.getOne(id);
         lbSoDuVi.setText(String.valueOf(v.getSoDuVi()));
+    }
+
+    private void showData(List<DongHocPhi> list) {
+        dtm.setRowCount(0);
+        for (DongHocPhi hp : list) {
+            dtm.addRow(new Object[]{hp.getNgayDong(), hp.getTienDong(), hp.getTrangThai()});
+        }
     }
 
     /**
@@ -51,7 +72,7 @@ public class formVi extends javax.swing.JFrame {
         lbSoDuVi = new javax.swing.JLabel();
         btnNapTien = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tbGD = new javax.swing.JTable();
         jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -70,7 +91,7 @@ public class formVi extends javax.swing.JFrame {
             }
         });
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tbGD.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -81,7 +102,7 @@ public class formVi extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane5.setViewportView(jTable4);
+        jScrollPane5.setViewportView(tbGD);
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel19.setText("LỊCH SỬ GIAO DỊCH");
@@ -205,7 +226,7 @@ public class formVi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable4;
     private javax.swing.JLabel lbSoDuVi;
+    private javax.swing.JTable tbGD;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,7 +5,11 @@
 package view;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.LichSuNapTien;
 import model.Vi;
 import service.impl.viImpl;
 
@@ -15,8 +19,9 @@ import service.impl.viImpl;
  */
 public class formNapTien extends javax.swing.JFrame {
 
+    private DefaultTableModel dtm = new DefaultTableModel();
+    private List<LichSuNapTien> ListNT = new ArrayList<>();
     private viImpl vil = new viImpl();
-    
     private String ma;
 
     /**
@@ -25,11 +30,25 @@ public class formNapTien extends javax.swing.JFrame {
     public formNapTien() {
         initComponents();
     }
-    
+
     public formNapTien(String maHV) {
         initComponents();
         setLocationRelativeTo(null);
         ma = maHV;
+        tbNT.setModel(dtm);
+        String[] hearder = {"Ngày Nạp", "Số tiền"};
+        dtm.setColumnIdentifiers(hearder);
+        String idHV = vil.getIDHocVien(ma);
+        String idV = vil.getIDVi(idHV);
+        ListNT = vil.getAll(idV);
+        showData(ListNT);
+    }
+
+    private void showData(List<LichSuNapTien> list) {
+        dtm.setRowCount(0);
+        for (LichSuNapTien nt : list) {
+            dtm.addRow(new Object[]{nt.getNgayNap(), nt.getTienNap()});
+        }
     }
 
     /**
@@ -46,6 +65,9 @@ public class formNapTien extends javax.swing.JFrame {
         txtNhapTien = new javax.swing.JTextField();
         btnThanhToan = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbNT = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +90,22 @@ public class formNapTien extends javax.swing.JFrame {
             }
         });
 
+        tbNT.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tbNT);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setText("Lịch sử nạp tiền");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,8 +125,14 @@ public class formNapTien extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(43, 43, 43)
-                                .addComponent(txtNhapTien, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(107, Short.MAX_VALUE))
+                                .addComponent(txtNhapTien, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,7 +147,11 @@ public class formNapTien extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThanhToan)
                     .addComponent(btnExit))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -118,10 +166,16 @@ public class formNapTien extends javax.swing.JFrame {
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
         // TODO add your handling code here:
         String id = vil.getIDHocVien(ma);
+        String idV = vil.getIDVi(id);
         BigDecimal monney = BigDecimal.valueOf(Double.parseDouble(txtNhapTien.getText()));
         Vi v = new Vi();
         v.setSoDuVi(monney);
+        LichSuNapTien nt = new LichSuNapTien();
+        nt.setTienNap(monney);
         JOptionPane.showMessageDialog(rootPane, vil.updateV(id, v));
+        JOptionPane.showMessageDialog(rootPane, vil.add(nt, idV));
+        ListNT = vil.getAll(idV);
+        showData(ListNT);
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     /**
@@ -164,6 +218,9 @@ public class formNapTien extends javax.swing.JFrame {
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbNT;
     private javax.swing.JTextField txtNhapTien;
     // End of variables declaration//GEN-END:variables
 }
