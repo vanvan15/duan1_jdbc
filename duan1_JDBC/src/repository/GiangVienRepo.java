@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import Utilities.DBContext;
+import utilities.SQLConnection;
 import model.NhanVien;
 
 /**
@@ -23,7 +23,7 @@ public class GiangVienRepo {
 
         String query = "select * from NhanVien";
         List<NhanVien> listNV = new ArrayList<>();
-        try (Connection con = DBContext.getConnection();
+        try (Connection con = SQLConnection.getConnection();
                 PreparedStatement ps = con.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
 
@@ -56,7 +56,7 @@ public class GiangVienRepo {
     public boolean updateNV(String maNV, NhanVien nv) {
         String query = "Update NhanVien SET diaChi = ? , sdt = ? where maNV = ?";
         int check = 0;
-        try (Connection con = DBContext.getConnection();
+        try (Connection con = SQLConnection.getConnection();
                 PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, nv.getDiaChi());
             ps.setObject(2, nv.getSdt());
@@ -69,9 +69,9 @@ public class GiangVienRepo {
     }
 
     public NhanVien getOne(String maNV) {
-        String query = "select*from NhanVien where maNV = ?";
+        String query = "select * from NhanVien where maNV = ?";
         NhanVien nv = new NhanVien();
-        try (Connection conn = DBContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = SQLConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(1, maNV);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -98,6 +98,19 @@ public class GiangVienRepo {
         }
         return null;
 
+    }
+    
+    public boolean updatePassGv(String newPass, String maNV) {
+        int check = 0;
+        String query = "Update NhanVien Set matKhau = ? where idChucVu = 0 and maNV = ?";
+        try (Connection conn = SQLConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, newPass);
+            ps.setObject(2, maNV);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
     }
 
 }

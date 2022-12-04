@@ -18,4 +18,6 @@ public interface GiangVienService {
     String updateNv(String maNV, NhanVien nv);
 
     NhanVien getOne(String maNV);
+    
+    boolean updatePassGv(String passNew, String maNV);
 }

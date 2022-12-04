@@ -13,12 +13,15 @@ public class menuGiangVien extends javax.swing.JFrame {
     /**
      * Creates new form menuGiangVien
      */
+    private String maGV;
+    
     public menuGiangVien() {
         initComponents();
     }
 
-    public menuGiangVien(String maNV) {
+    public menuGiangVien(String user) {
         initComponents();
+        maGV = user;
         setLocationRelativeTo(null);
     }
 
@@ -70,9 +73,19 @@ public class menuGiangVien extends javax.swing.JFrame {
 
         btnThoat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Home.png"))); // NOI18N
         btnThoat.setText("Thoát");
+        btnThoat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThoatActionPerformed(evt);
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Unknown person.png"))); // NOI18N
         jButton5.setText("Đổi Mật Khẩu");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Giảng viên");
@@ -103,8 +116,8 @@ public class menuGiangVien extends javax.swing.JFrame {
                                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(90, 90, 90)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3))
+                            .addComponent(jButton3)
+                            .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 74, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -141,17 +154,23 @@ public class menuGiangVien extends javax.swing.JFrame {
 
     private void btnThoat1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoat1ActionPerformed
         // TODO add your handling code here:
-        formLogin f = new formLogin();
-        f.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnThoat1ActionPerformed
 
     private void btnThoat2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoat2ActionPerformed
         // TODO add your handling code here:
+    }//GEN-LAST:event_btnThoat2ActionPerformed
+
+    private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
         formLogin f = new formLogin();
         f.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnThoat2ActionPerformed
+    }//GEN-LAST:event_btnThoatActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        formDoiMKGV form = new formDoiMKGV(maGV);
+        form.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

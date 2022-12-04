@@ -35,5 +35,10 @@ public class GiangVienImpl implements GiangVienService{
     public NhanVien getOne(String maNV) {
         return nvrp.getOne(maNV);
     }
+
+    @Override
+    public boolean updatePassGv(String passNew, String maNV) {
+        return nvrp.updatePassGv(passNew, maNV);
+    }
     
 }
